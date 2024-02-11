@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-sitetag">
+            <img src="{% static 'images/logo_placeholder.jpg' %}" alt="Group Logo" id="sitelogo">
+            <span class="groupname">CoPal Co</span>
+        </div>
+        {% if user.is_authenticated %}
+        <a href="{% url 'index' %}">
+            <div class="logout">
+                <span>Sign Out</span>
+            </div>
+        </a>
+        {% endif %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'index' %}">
+        <div class="left">
+            <span>Left Suggest</span>
+        </div>
+    </a>
+    <a href="{% url 'index' %}">
+        <div class="right">
+            <span>Right Suggest</span>
+        </div>
+    </a>
+    {% else %}
+    <div class="left">
+        <div id="loadreg" onclick="event.stopPropagation()">
+            <span>Register</span>
+            <span id="register"></span> 
+        </div>
+    </div>
+    <div class="right">
+        <div id="loadlog" onclick="event.stopPropagation()">
+            <span>Log In</span>
+            <span id="signin"></span> 
+        </div>
+    </div>
+    {% endif %}
+
+    <script src="../static/js/jQuery.js"></script>
+    <script src="../static/js/index.js"></script>
+</body>
+</html>

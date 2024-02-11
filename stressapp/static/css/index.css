@@ -1,0 +1,95 @@
+body {
+    color: white;
+}
+
+
+.left {
+    top: 0vh;
+    left: 0vw;
+    position: absolute;
+    background-color: rgb(33, 216, 88);
+    height: 100vh;
+    width: 50vw;
+    transition: all 0.5s ease;
+}
+
+.right {
+    top: 0vh;
+    left: 50vw;
+    position: absolute;
+    background-color: rgb(56, 111, 230);
+    height: 100vh;
+    width: 50vw;
+    left: 50%;
+    transition: all 0.5s ease;
+}
+
+.left.active {
+    width: 100vw;
+}
+
+.left.deactive {
+    width: 0vw;
+    overflow: hidden;
+}
+
+.right.active {
+    top: 0;
+    left: 0;
+    width: 100vw;
+}
+
+.right.deactive {
+    width: 0vw;
+    left: 100%;
+    overflow: hidden;
+}
+
+span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.topbar {
+    z-index: 1;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: white;
+    border: 2px black;
+    height: 40px;
+    width: 100vw;
+
+}
+
+#topbar-sitetag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#sitelogo {
+    height: 50px;
+    width: 100px;
+}
+
+a {
+    color: white;
+}
+
+#loadreg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+}
+
+#loadlog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
