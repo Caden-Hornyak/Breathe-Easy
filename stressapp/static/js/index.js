@@ -3,7 +3,6 @@ let right = document.querySelector('.right');
 let authDisp = false;
 let clone;
 
-
 left.onclick = function () {
     let loadreg = document.querySelector(".loadreg");
     left.classList.toggle('active');
@@ -15,16 +14,14 @@ left.onclick = function () {
         $("#register").replaceWith(data);
         });
 
-        // wait for form load before applying tag select
-        setTimeout(function() {
-            new MultiSelectTag('countries');
-        }, 30);
-        
+        moniterTagSelect();
         authDisp = true;
+        
     } else {
         $("#loadreg").replaceWith(clone);
         loadreg.classList.toggle('active');
         authDisp = false;
+        tsInput = false;
     }
     
 };

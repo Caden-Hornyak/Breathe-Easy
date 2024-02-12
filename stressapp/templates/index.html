@@ -6,9 +6,11 @@
     <title>Home</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+    <link rel="stylesheet" href="{% static 'css/tag-selector.css' %}">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/thinline.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <body>
+    <button id="hi" type="submit" class="form-group btn btn-primary">Hi</button>
     {% if user.is_authenticated %}
     <a href="{% url 'signout' %}">
         <div class="signout">
@@ -26,12 +28,14 @@
     </div>
     {% else %}
     <div class="left">
+        <div class="lhighlight"></div>
         <span id="reg">Register</span>
         <div class="loadreg" id="loadreg" onclick="event.stopPropagation()">
             <span id="register"></span> 
         </div>
     </div>
     <div class="right">
+        <div class="rhighlight"></div>
         <span id="li">Log In</span>
         <div class="loadlog" id="loadlog" onclick="event.stopPropagation()">
             <span id="signin"></span> 
@@ -40,7 +44,7 @@
     {% endif %}
     
     <script src="../static/js/jQuery.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
     <script src="../static/js/index.js"></script>
+    <script src="../static/js/tag-selector.js"></script>
 </body>
 </html>

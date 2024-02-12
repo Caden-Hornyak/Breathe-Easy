@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from .readdata import ReadData
 
 # Create your views here.
 def index(request):
@@ -48,7 +49,10 @@ def signup(request):
         
         return redirect('signin')
 
-    return render(request, "signup.html")
+    reader = ReadData(False)
+    path = r"C:\Users\19494\Desktop\Coding\Python\StressManWeb\data\hobbies.txt"
+    dic = reader.read_txt(path)
+    return render(request, "signup.html", { "interest_key": dic})
 
 def signin(request):
     if request.method == 'POST':

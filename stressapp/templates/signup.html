@@ -1,30 +1,39 @@
 <form method="post" action="{% url 'index' %}" class="form-div">
         {% csrf_token %}
-        <div class="form-group">
-            <input type="text" class="form-control" id="username" name="username" placeholder="Username" Required>
-            <i class='bx bxs-user'></i>
+        <div class="regtxtform">
+            <div class="form-group">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" >
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name" >
+                <i class='bx bx-objects-horizontal-left'></i>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" >
+                <i class='bx bx-envelope'></i>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Password" >
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm Password" >
+                <i class='bx bxs-lock-alt'></i>
+            </div>
         </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" Required>
-            <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" Required>
-        </div>
-        <div class="form-group">
-            <input type="email" class="form-control" id="email" name="email" placeholder="Email" Required>
-        </div>
-        <div class="form-group">
-            <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Password" Required>
-        </div>
-        <div class="form-group">
-            <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm Password" Required>
-        </div>
-        <div id="tag-selector">
-            <select name="countries" id="countries" multiple>
-                <option value="1">Afghanistan</option>
-                <option value="2">Australia</option>
-                <option value="3">Germany</option>
-                <option value="4">Canada</option>
-                <option value="5">Russia</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <div class="wrapper">
+            <div class="title">
+                <i class='bx bx-palette' ></i>
+              <h2>Interests</h2>
+            </div>
+            <div class="content">
+              <p>Please enter your interests for improved suggestions</p>
+              <ul><input id="input" class="input" type="text" spellcheck="false"></ul>
+            </div>
+            <div class="details">
+              <button>Remove All</button>
+            </div>
+          </div>
+        <button id="regbtn" type="submit" class="form-group btn btn-primary">Sign Up</button>
     </form>
