@@ -6,49 +6,41 @@
     <title>Home</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
-</head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <body>
-    <div class="topbar">
-        <div class="topbar-sitetag">
-            <img src="{% static 'images/logo_placeholder.jpg' %}" alt="Group Logo" id="sitelogo">
-            <span class="groupname">CoPal Co</span>
+    {% if user.is_authenticated %}
+    <a href="{% url 'signout' %}">
+        <div class="signout">
+            <span>Sign Out</span>
         </div>
-        {% if user.is_authenticated %}
-        <a href="{% url 'index' %}">
-            <div class="logout">
-                <span>Sign Out</span>
-            </div>
-        </a>
-        {% endif %}
-    </div>
+    </a>
+    {% endif %}
 
     {% if user.is_authenticated %}
-    <a href="{% url 'index' %}">
-        <div class="left">
-            <span>Left Suggest</span>
-        </div>
-    </a>
-    <a href="{% url 'index' %}">
-        <div class="right">
-            <span>Right Suggest</span>
-        </div>
-    </a>
+    <div class="left">
+        <span>Left Suggest</span>
+    </div>
+    <div class="right">
+        <span>Right Suggest</span>
+    </div>
     {% else %}
     <div class="left">
-        <div id="loadreg" onclick="event.stopPropagation()">
-            <span>Register</span>
+        <span id="reg">Register</span>
+        <div class="loadreg" id="loadreg" onclick="event.stopPropagation()">
             <span id="register"></span> 
         </div>
     </div>
     <div class="right">
-        <div id="loadlog" onclick="event.stopPropagation()">
-            <span>Log In</span>
+        <span id="li">Log In</span>
+        <div class="loadlog" id="loadlog" onclick="event.stopPropagation()">
             <span id="signin"></span> 
         </div>
     </div>
     {% endif %}
-
+    
     <script src="../static/js/jQuery.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
     <script src="../static/js/index.js"></script>
 </body>
 </html>
