@@ -82,9 +82,18 @@ a {
         background-image: linear-gradient(90deg ,rgb(45, 207, 94), rgb(78, 138, 177));
         height: 100vh;
         width: 50vw;
-        transition: all 0.5s ease;
+        transition: width 0.5s ease;
         overflow: hidden;
     }   
+
+    .left.active {
+        width: 100vw;
+    }
+
+    .left.deactive {
+        width: 0vw;
+        overflow: hidden;
+    }
 
 
         .loadreg {
@@ -174,23 +183,16 @@ a {
             height: 100%;
         }
 
-        .left.active {
-            width: 100vw;
-        }
-
-        .left.deactive {
-            width: 0vw;
-            overflow: hidden;
-        }
 
             #reg {
                 z-index: 1;
                 position: absolute;
                 left: 50%;
                 top: 50%;
-                opacity: 100%;
+                opacity: 0%;
                 transform: translate(-50%, -50%);
-                transition: all 0.5s ease;
+                transition: all 1s ease;
+                transition: opacity 1s ease .25s;
             }
 
             .left.active #reg {
@@ -254,8 +256,9 @@ a {
             position: absolute;
             left: 50%;
             top: 50%;
+            opacity: 0%;
             transform: translate(-50%, -50%);
-            transition: all 0.5s ease;
+            transition: opacity 1s ease .5s;
         }
 
         .right.active #li {

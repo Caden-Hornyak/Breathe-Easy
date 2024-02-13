@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'index' %}" class="form-div">
+<form method="post" action="{% url 'signup' %}" class="form-div" onsubmit="checkSubmit()">
         {% csrf_token %}
         <div class="regtxtform">
             <div class="form-group">
@@ -32,6 +32,7 @@
               <ul><input id="input" class="input" type="text" spellcheck="false"></ul>
             </div>
             <div class="details">
+                <p><span>7</span> tags are remaining</p>
               <button>Remove All</button>
             </div>
           </div>

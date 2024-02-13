@@ -45,6 +45,26 @@ right.onclick = function () {
     }
 };
 
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("reg").style.opacity = "1";
+    document.getElementById("li").style.opacity = "1";
+}, false);
+
+function checkSubmit(e) {
+    if (e.key == 'Enter') {
+        return false;
+    } else {
+
+        // Access the form element
+        $('form-div').append('<input type="hidden" id="yourData" name="tags" value="'+ tags +'"/>');
+
+        setTimeout(function() {
+        // Submit the form
+        form.submit();
+        }, 100000);
+    }
+}
+
 
 
 

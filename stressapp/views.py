@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .readdata import ReadData
+import sys
+
 
 # Create your views here.
 def index(request):
@@ -11,9 +13,9 @@ def index(request):
 
 def signup(request):
     if request.method == "POST":
+        print(request.__dict__, file=sys.stderr)
         username = request.POST['username']
-        fname = request.POST['fname']
-        lname = request.POST['lname']
+        fullname = request.POST['fullname']
         email = request.POST['email']
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
@@ -39,15 +41,14 @@ def signup(request):
             return redirect('index')
         
         myuser = User.objects.create_user(username, email, pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
+        myuser.full_name = fullname
 
         myuser.is_active = False
         myuser.save()
         messages.success(request, "Your Account has been created succesfully!")
 
         
-        return redirect('signin')
+        return redirect('index')
 
     reader = ReadData(False)
     path = r"C:\Users\19494\Desktop\Coding\Python\StressManWeb\data\hobbies.txt"

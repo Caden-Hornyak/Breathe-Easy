@@ -17,7 +17,7 @@
   height: 150px;
   background: #fff;
   border-radius: 15px;
-  padding: 18px 25px 20px;
+  padding: 10px 25px 25px;
   color: rgba(0, 0, 0, .2);
   box-shadow: 0 0 30px rgba(0,0,0,0.06);
 }
@@ -26,9 +26,9 @@
   align-items: center;
 }
 .title i{
+    
   font-size: 25px;
 }
-
 
 .title h2{
   font-size: 25px;
@@ -36,38 +36,45 @@
   margin-left: 8px;
 }
 .wrapper .content{
-  margin: 10px 0;
+  margin: -2px 0;
 }
 .content p{
   font-size: 12px;
 }
 .content ul{
+  height: 60px;
   display: flex;
   flex-wrap: wrap;
   padding: 7px;
-  margin: 12px 0;
+  margin: 5px ;
   border-radius: 5px;
   border: 1px solid #a6a6a6;
 }
 .content ul  li{
   color: #333;
+  height: 20px;
   margin: 4px 3px;
   list-style: none;
   border-radius: 5px;
   background: #F2F2F2;
-  padding: 5px 8px 5px 10px;
+  padding: 2px;
   border: 1px solid #e3e1e1;
+  font-size: 10px;
 }
 .content ul li i{
   height: 20px;
   width: 20px;
-  color: #808080;
+  color: rgba(0, 0, 0, .2);
   margin-left: 8px;
-  font-size: 12px;
+  font-size: 10px;
   cursor: pointer;
   border-radius: 50%;
   background: #dfdfdf;
   justify-content: center;
+}
+
+.details p {
+    font-size: 12px;
 }
 .content ul input{
   flex: 1;

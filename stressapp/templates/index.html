@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/thinline.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <body>
-    <button id="hi" type="submit" class="form-group btn btn-primary">Hi</button>
     {% if user.is_authenticated %}
     <a href="{% url 'signout' %}">
         <div class="signout">
