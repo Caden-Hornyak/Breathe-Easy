@@ -50,19 +50,22 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("li").style.opacity = "1";
 }, false);
 
+
+let count = 0;
 function checkSubmit(e) {
+
     if (e.key == 'Enter') {
+        console.log("Hi :)")
         return false;
     } else {
+        // TODO check if passwords match and display error message if not
 
         // Access the form element
-        $('form-div').append('<input type="hidden" id="yourData" name="tags" value="'+ tags +'"/>');
+        $('.form-div').append('<input type="hidden" id="yourData" name="tags" value="'+ tags +'"/>');
 
-        setTimeout(function() {
-        // Submit the form
-        form.submit();
-        }, 100000);
+        return true;
     }
+    
 }
 
 

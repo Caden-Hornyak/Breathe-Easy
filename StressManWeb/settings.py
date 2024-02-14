@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'stressapp.apps.StressappConfig'
+    'stressapp.apps.StressappConfig',
+    'homepage.apps.HomepageConfig',
 ]
 
 MIDDLEWARE = [

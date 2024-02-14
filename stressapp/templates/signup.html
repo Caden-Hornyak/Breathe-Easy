@@ -1,24 +1,24 @@
-<form method="post" action="{% url 'signup' %}" class="form-div" onsubmit="checkSubmit()">
+<form method="post" action="{% url 'signup' %}" class="form-div" onsubmit="return checkSubmit(this);">
         {% csrf_token %}
         <div class="regtxtform">
             <div class="form-group">
-                <input type="text" class="form-control" id="username" name="username" placeholder="Username" >
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" Required>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name" >
+                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Full Name" Required>
                 <i class='bx bx-objects-horizontal-left'></i>
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email" >
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" Required>
                 <i class='bx bx-envelope'></i>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Password" >
+                <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Password" Required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm Password" >
+                <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm Password" Required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
         </div>

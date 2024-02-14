@@ -216,6 +216,17 @@ a {
         overflow: hidden;
     }
 
+    .right.active {
+        top: 0;
+        left: 0;
+        width: 100vw;
+    }
+
+    .right.deactive {
+        width: 0vw;
+        left: 100%;
+    }
+
         .loadlog {
             position: absolute;
             padding: 20px;
@@ -272,16 +283,6 @@ a {
             right: 9px;
         }
 
-        .right.active {
-            top: 0;
-            left: 0;
-            width: 100vw;
-        }
-
-        .right.deactive {
-            width: 0vw;
-            left: 100%;
-        }
 
             
 

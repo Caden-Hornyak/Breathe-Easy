@@ -62,7 +62,6 @@ function moniterTagSelect() {
                     tag.split(',').forEach(tag => {
                         tags.push(tag);
                         createTag();
-                        console.log(tags);
                     });
                 }
             }
