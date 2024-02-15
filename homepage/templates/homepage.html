@@ -6,18 +6,40 @@
     <title>Document</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/background.css' %}">
+    {% if newuser %}
+    <link rel="stylesheet" href="{% static 'css/instructions.css' %}">
+    {% endif %}
 </head>
 <body>
-    <div class="popupwrap d">
-        <h1>How it Works</h1>
-        <ul>
-            <li>Do this</li>
-            <li>Do that</li>
-            <li>Do this</li>
-        </ul>
-        <button class="popupbtn" onclick="closePopup()">Ok</button>
+    <div class="background">
+        <img id="one" class="blob" src="../static/images/mov-grad-background/start/Vector.png" alt="">
+        <img id="two" class="blob" src="../static/images/mov-grad-background/start/Vector-7.png" alt="">
+        <img id="three" class="blob" src="../static/images/mov-grad-background/start/Vector-3.png" alt="">
+        <img id="four" class="blob" src="../static/images/mov-grad-background/start/Vector-2.png" alt="">
+        <img id="five" class="blob" src="../static/images/mov-grad-background/start/Vector-6.png" alt="">
+        <img id="six" class="blob" src="../static/images/mov-grad-background/start/Vector-4.png" alt="">
+        <img id="seven" class="blob" src="../static/images/mov-grad-background/start/Vector-5.png" alt="">
+        <img id="eight" class="blob" src="../static/images/mov-grad-background/start/Vector-1.png" alt="">
     </div>
-
+    {% if user.is_authenticated %}
+    <a href="{% url 'signout' %}">
+        <div class="signout">
+            <span>Sign Out</span>
+        </div>
+    </a>
+    {% endif %}
+    
+    {% if newuser %}
+    <div class="instructions">
+        <ul>
+            <li>Hello {{ username }}</li>
+            <li>This Is Your Homepage!</li>
+            <li>Let out your stress with tailored ideas.</li>
+            <li>Left for Indoor, Right For Out</li>
+        </ul>
+    </div>
+    {% endif %}
     <script src="../static/js/jQuery.js"></script>
     <script src="../static/js/homepage.js"></script>
 </body>

@@ -3,8 +3,10 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
 from .readdata import ReadData
 from .models import userAttribute, interest
+import sys
 
 
 # Create your views here.
@@ -14,13 +16,13 @@ def index(request):
 def signup(request):
     if request.method == "POST":
         
-        username = request.POST['username']
+        username = request.POST['username'].strip()
         fullname = request.POST['fullname']
         email = request.POST['email']
-        pass1 = request.POST['pass1']
+        pass1 = request.POST['pass1'].strip()
         pass2 = request.POST['pass2']
         tags = request.POST['tags']
-
+        
         if User.objects.filter(username=username):
             messages.error(request, "Username already exists! Please try some other username.")
             return redirect('index')
@@ -43,11 +45,11 @@ def signup(request):
             if not interest.objects.filter(interest=entered_tag).exists():   
                 user_inter = interest(interest=entered_tag)
                 user_inter.save()
-
+        
         myuser = User.objects.create_user(username=username, password=pass1)
         userAttr = userAttribute(fullname=fullname, username=username, email=email)
 
-        myuser.is_active = False
+        myuser.is_active = True
         myuser.save()
         userAttr.save()
         messages.success(request, "Your Account has been created succesfully!")
@@ -67,10 +69,10 @@ def signin(request):
         pass1 = request.POST['pass1']
         
         user = authenticate(username=username, password=pass1)
-        
         if user is not None:
             login(request, user)
-            return redirect('homepage')
+            print(user.username, type(user.username), file=sys.stderr)
+            return redirect(reverse('homepage', kwargs={'username': user.username}))
         else:
             messages.error(request, "Bad Credentials!")
             return redirect('index')

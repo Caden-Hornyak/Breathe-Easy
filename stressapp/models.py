@@ -13,3 +13,7 @@ class userAttribute(models.Model):
     username = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
     tags = models.ManyToManyField(interest)
+    new_user = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.username

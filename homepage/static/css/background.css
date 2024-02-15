@@ -1,0 +1,298 @@
+body {
+    background-color: rgb(227, 97, 97);
+}
+
+.background {
+    top: 0;
+    left: 0;
+
+    position: absolute;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    filter: blur(150px);
+    opacity: 80%;
+    pointer-events: none;
+    user-select: none;
+}
+
+#one {
+    animation: moveBlob1 12s linear infinite;
+}
+
+#two {
+    animation: moveBlob2 15s linear infinite;
+}
+
+#three {
+    animation: moveBlob3 11s linear infinite;
+}
+
+#four {
+    animation: moveBlob4 13s linear infinite;
+}
+
+#five {
+    animation: moveBlob5 12s linear infinite;
+}
+
+#six {
+    animation: moveBlob6 15s linear infinite;
+}
+
+#seven {
+    animation: moveBlob7 14s linear infinite;
+}
+
+#eight {
+    animation: moveBlob8 12s linear infinite;
+}
+
+@keyframes moveBlob1 {
+
+    0%,
+    100% {
+        position: absolute;
+        width: 50.75%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 70.00%;
+        top: -15.50%
+    }
+
+    45% {
+        position: absolute;
+        width: 45.75%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 55.19%;
+        top: 36.06%
+    }
+
+    77% {
+        position: absolute;
+        width: 37.63%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: -5.94%;
+        top: 1%
+    }
+}
+
+@keyframes moveBlob2 {
+
+    0%,
+    100% {
+        position: absolute;
+        width: 30.13%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 60.75%;
+        top: 33.69%
+    }
+
+    33% {
+        position: absolute;
+        width: 25.13%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 39.56%;
+        top: 38.75%
+    }
+
+    66% {
+        position: absolute;
+        width: 22.13%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 59.94%;
+        top: 22.69%
+    }
+}
+
+@keyframes moveBlob3 {
+
+    0%,
+    100% {
+        position: absolute;
+        width: 38.81%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 80.00%;
+        top: 50.13%
+    }
+
+    40% {
+        position: absolute;
+        width: 39.00%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 45.06%;
+        top: 12.44%
+    }
+
+    70% {
+        position: absolute;
+        width: 41.38%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 0.50%;
+        top: 22.50%
+    }
+}
+
+@keyframes moveBlob4 {
+
+    0%,
+    100% {
+        position: absolute;
+        width: 34.44%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 23.94%;
+        top: 16.44%
+    }
+
+    33% {
+        position: absolute;
+        width: 31.56%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 80.94%;
+        top: 43.94%
+    }
+
+    66% {
+        position: absolute;
+        width: 41.44%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 13.94%;
+        top: 0.94%
+    }
+}
+
+@keyframes moveBlob5 {
+
+    0%,
+    100% {
+        position: absolute;
+        width: 36.44%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: -19.25%;
+        top: -2.50%
+    }
+
+    38% {
+        position: absolute;
+        width: 38.44%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 50.50%;
+        top: 5.00%
+    }
+
+    78% {
+        position: absolute;
+        width: 39.44%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 26.06%;
+        top: 18.38%
+    }
+}
+
+
+@keyframes moveBlob6 {
+
+    0%,
+    100% {
+        position: absolute;
+        width: 27.25%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 22.44%;
+        top: 14.44%
+    }
+
+    33% {
+        position: absolute;
+        width: 31.25%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 5.38%;
+        top: 65.81%
+    }
+
+    66% {
+        position: absolute;
+        width: 33.25%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 37.94%;
+        top: 9.19%
+    }
+}
+
+@keyframes moveBlob7 {
+
+    0%,
+    100% {
+        position: absolute;
+        width: 40.75%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: -2.94%;
+        top: 8.81%
+    }
+
+    30% {
+        position: absolute;
+        width: 38.13%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 4.69%;
+        top: 60.31%
+    }
+
+    63% {
+        position: absolute;
+        width: 35.75%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 6.44%;
+        top: 6.81%
+    }
+}
+
+@keyframes moveBlob8 {
+
+    0%,
+    100% {
+        position: absolute;
+        width: 29.75%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: -2.13%;
+        top: 40.13%
+    }
+
+    33% {
+        position: absolute;
+        width: 35.63%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 9.13%;
+        top: 6.56%
+    }
+
+    66% {
+        position: absolute;
+        width: 36.19%;
+        border-radius: 0.31%;
+        border-width: 0.06%;
+        left: 3.19%;
+        top: -2.44%
+    }
+}
