@@ -6,6 +6,7 @@
     50% {
         opacity: 1;
     }
+
 }
 
 
@@ -25,7 +26,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
 
-        width: 500px;
+        width: 700px;
         height: 300px;
         text-align: center;
         margin: 0;
@@ -51,21 +52,18 @@
 
             opacity: 0%;
             animation-name: fade-in-out;
-            animation-duration: 3s;
+            animation-duration: 4s;
+            
+            
         }
 
             li:nth-child(2){
-                /* transform: translateY(-100%); */
-                animation-delay: 3.5s;
+
+                animation-delay: 4.25s;
             }
 
             li:nth-child(3){
-                /* transform: translateY(-100%); */
-                animation-delay: 7s;
+                animation-delay: 8.5s;
             }
 
-            li:nth-child(4){
-                /* transform: translateY(-400%); */
-                animation-delay: 10.5s;
-            }
 

@@ -1,20 +1,40 @@
-// const popup = document.querySelector(".popupwrap");
 
-// // load popup if hasnt been loaded in session
-// $(window).on(function () {
-//     $(function () {
-//         if (!sessionStorage.getItem("popup")) {
+// On page load, display "register" and "login"
+// document.addEventListener('DOMContentLoaded', function() {
+//     show_titles(isNewUser);
 
-//             popup.classList.toggle('d');
-//             sessionStorage.setItem("popup", true);
-//         }
-//     });
-// });
+// }, false);
 
-// function closePopup() {
-//     popup.classList.toggle('d');
+// function show_titles(new_user) {
+//     if (new_user) {
+//         setTimeout(function () {
+//             document.getElementById('instructionsList').style.display = 'none';
+//             // Add code here to display something else after 12 seconds
+//         }, 12000);
+//     } else {
+
+//     }
 // }
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     popup.classList.toggle('d');
-// }, false);
+window.send_user_data = function send_user_data(button) {
+    var userInput = button.innerText;
+    let chatbot_output;
+
+    $.ajax({
+        type: 'POST',
+        url: '/homepage/ajax/',
+        data: {
+            'user_input': userInput,
+            csrfmiddlewaretoken: window.CSRF_TOKEN,
+        },
+        dataType: 'json',
+        success: function (data) {
+            chatbot_output = data.chatbot_response;
+            console.log(chatbot_output);
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        },
+    });
+   
+}

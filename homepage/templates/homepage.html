@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/spinner.css' %}">
     <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
     <link rel="stylesheet" href="{% static 'css/background.css' %}">
+    
     {% if newuser %}
     <link rel="stylesheet" href="{% static 'css/instructions.css' %}">
     {% endif %}
@@ -22,6 +24,7 @@
         <img id="seven" class="blob" src="../static/images/mov-grad-background/start/Vector-5.png" alt="">
         <img id="eight" class="blob" src="../static/images/mov-grad-background/start/Vector-1.png" alt="">
     </div>
+    <div class="lds-ripple"><div></div><div></div></div>
     {% if user.is_authenticated %}
     <a href="{% url 'signout' %}">
         <div class="signout">
@@ -33,13 +36,27 @@
     {% if newuser %}
     <div class="instructions">
         <ul>
-            <li>Hello {{ username }}</li>
-            <li>This Is Your Homepage!</li>
-            <li>Let out your stress with tailored ideas.</li>
-            <li>Left for Indoor, Right For Out</li>
+            <li>Hello {{ username }}, This Is Your Homepage!</li>
+            <li>I am your personal AI chatbot, placeholder</li>
+            <li>Let out some stress with my amazing ideas!</li>
         </ul>
     </div>
+
     {% endif %}
+
+    <h2 id="in-btn">Register</h2>
+
+    <h2 id="out-btn">Log In</h2>
+    <button onclick="send_user_data(this)">Outside</button>
+    <button onclick="send_user_data(this)">Inside</button>
+
+    <!-- django to js variables -->
+    <script data-username="{{ newuser }}">
+        const data = document.currentScript.dataset;
+        const isNewUser = data.username;
+    </script>
+
+    <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
     <script src="../static/js/jQuery.js"></script>
     <script src="../static/js/homepage.js"></script>
 </body>

@@ -15,3 +15,31 @@ a {
     left: calc(100vw - 125px);
     top: 20px;
 }
+
+h2 {
+    font-size: 3rem;
+}
+
+
+#in-btn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    
+    opacity: 0%;
+    transition: opacity 1s ease .25s;
+}
+
+
+#out-btn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    
+    opacity: 0%;
+    transition: opacity 1s ease .5s;
+}

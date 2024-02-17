@@ -1,39 +1,39 @@
 
-* {
-  margin: 0;
-  padding: 0;
-  font-family: 'Helvetica', sans-serif;
-}
+
 
 ::selection{
   color: #fff;
   background: rgba(45, 207, 94, .8);
 }
+
 .wrapper{
-  position: relative;
-  bottom: 20px;
-  width: 370px;
-  right: 10px;
-  height: 150px;
+
+  height: 210px;
+  width: 100%;
+
   background: #fff;
   border-radius: 15px;
-  padding: 10px 25px 25px;
+
   color: rgba(0, 0, 0, .2);
   box-shadow: 0 0 30px rgba(0,0,0,0.06);
+
+  margin: 10px 0px;
+  padding: 0px 12px 12px;
+  align-items: center;
 }
 .wrapper :where(.title, li, li i, .details){
   display: flex;
   align-items: center;
 }
 .title i{
-    
+  margin: 10px 5px;
   font-size: 25px;
 }
 
 .title h2{
   font-size: 25px;
   font-weight: 600;
-  margin-left: 8px;
+  margin: 10px;
 }
 .wrapper .content{
   margin: -2px 0;
@@ -42,7 +42,7 @@
   font-size: 12px;
 }
 .content ul{
-  height: 60px;
+  height: 100px;
   display: flex;
   flex-wrap: wrap;
   padding: 7px;
@@ -52,7 +52,7 @@
 }
 .content ul  li{
   color: #333;
-  height: 20px;
+  height: 28px;
   margin: 4px 3px;
   list-style: none;
   border-radius: 5px;
@@ -77,13 +77,20 @@
     font-size: 12px;
 }
 .content ul input{
+
   flex: 1;
   padding: 5px;
   border: none;
   outline: none;
-  font-size: 16px;
+  font-size: 12px;
+  line-height: 12px;
   color: rgba(0, 0, 0, .2);
 }
+
+.content ul input::placeholder {
+  text-align: left;
+}
+
 .wrapper .details{
   justify-content: space-between;
 }

@@ -9,11 +9,11 @@ class interest(models.Model):
         return self.interest
 
 class userAttribute(models.Model):
-    fullname = models.CharField(max_length=50)
     username = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
     tags = models.ManyToManyField(interest)
     new_user = models.BooleanField(default=True)
+    remember_me = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

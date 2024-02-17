@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login as auth_login
 from django.urls import reverse
 from .readdata import ReadData
 from .models import userAttribute, interest
@@ -13,14 +14,13 @@ import sys
 def index(request):
     return render(request, "index.html")
 
-def signup(request):
+def register(request):
+
     if request.method == "POST":
         
-        username = request.POST['username'].strip()
-        fullname = request.POST['fullname']
+        username = request.POST['username']
         email = request.POST['email']
-        pass1 = request.POST['pass1'].strip()
-        pass2 = request.POST['pass2']
+        pass1 = request.POST['pass1']
         tags = request.POST['tags']
         
         if User.objects.filter(username=username):
@@ -47,7 +47,7 @@ def signup(request):
                 user_inter.save()
         
         myuser = User.objects.create_user(username=username, password=pass1)
-        userAttr = userAttribute(fullname=fullname, username=username, email=email)
+        userAttr = userAttribute(username=username, email=email)
 
         myuser.is_active = True
         myuser.save()
@@ -57,29 +57,36 @@ def signup(request):
         
         return redirect('index')
 
-    reader = ReadData(False)
-    path = r"C:\Users\19494\Desktop\Coding\Python\StressManWeb\data\hobbies.txt"
-    dic = reader.read_txt(path)
-    return render(request, "signup.html", { "interest_key": dic})
+    return render(request, "register.html")
 
 
-def signin(request):
+def login(request):
     if request.method == 'POST':
         username = request.POST['username']
         pass1 = request.POST['pass1']
+        remember_me = 'remember_me' in request.POST
+
         
         user = authenticate(username=username, password=pass1)
         if user is not None:
-            login(request, user)
-            print(user.username, type(user.username), file=sys.stderr)
-            return redirect(reverse('homepage', kwargs={'username': user.username}))
+
+            auth_login(request, user)
+            request.session['username'] = username
+
+            # if user wants to be remembered set expiry for 2 weeks else None
+            if remember_me:
+                request.session.set_expiry(1209600)
+            else:
+                request.session.set_expiry(0)
+
+            return redirect(reverse('homepage'))
         else:
             messages.error(request, "Bad Credentials!")
             return redirect('index')
         
-    return render(request, "signin.html")
+    return render(request, "login.html")
 
 def signout(request):
     logout(request)
-    messages.success(request, "Logged Out Successfully!!")
+    
     return redirect('index')

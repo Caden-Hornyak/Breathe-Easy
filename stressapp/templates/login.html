@@ -1,0 +1,19 @@
+<h1 id="login-title2">Login</h1>
+
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="input-boxR">
+        <input type="text" id="username" name="username" placeholder="Username" Required>
+        <i class="bx bxs-user"></i>
+    </div>
+    <div class="input-boxR">
+        <input type="password" id="pass1" name="pass1" placeholder="Password" Required>
+        <i class="bx bxs-lock-alt"></i>
+    </div>
+    <div class="remember-me">
+        <input type="checkbox" id="remember_me" name="remember_me" placeholder="Password">
+        <label for="remember_me">Remember Me</label>
+    </div>
+        
+    <button id="logbtn" type="submit" class="btn btn-primary">Log In</button>
+</form>

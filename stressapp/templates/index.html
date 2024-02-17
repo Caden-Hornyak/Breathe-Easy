@@ -7,6 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/tag-selector.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/thinline.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
@@ -14,16 +15,18 @@
 
     <div class="left">
         <div class="lhighlight"></div>
-        <span id="reg">Register</span>
-        <div class="loadreg" id="loadreg" onclick="event.stopPropagation()">
-            <span id="register"></span> 
+        
+        <h2 id="reg-title">Register</h2>
+        <div class="reg-wrapper" onclick="event.stopPropagation()">
+            <span id="reg-placeholder"></span> 
         </div>
     </div>
     <div class="right">
         <div class="rhighlight"></div>
-        <span id="li">Log In</span>
-        <div class="loadlog" id="loadlog" onclick="event.stopPropagation()">
-            <span id="signin"></span> 
+
+        <h2 id="login-title">Log In</h2>
+        <div class="login-wrapper" onclick="event.stopPropagation()">
+            <span id="log-placeholder"></span> 
         </div>
     </div>
     

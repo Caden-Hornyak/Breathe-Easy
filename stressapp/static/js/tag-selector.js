@@ -7,7 +7,8 @@ let ul;
 
 function moniterTagSelect() {
     setTimeout(function() {
-        document.querySelector('.form-div').addEventListener('keypress', function(event) {
+
+        $('.regform')[0].addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
             }

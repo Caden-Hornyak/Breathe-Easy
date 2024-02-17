@@ -3,5 +3,6 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('<str:username>', views.homepage, name="homepage"),
+    path('', views.homepage, name="homepage"),
+    path('ajax/', views.ajax_view, name="ajax_view"),
 ]

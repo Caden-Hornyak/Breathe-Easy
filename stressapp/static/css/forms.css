@@ -1,0 +1,194 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Login Form */
+.right {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+
+.login-wrapper {
+    opacity: 0%;
+}
+
+.right.active .login-wrapper {
+    width: 420px;
+
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    backdrop-filter: blur(100px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+
+    padding: 10px;
+
+    opacity: 100%;
+    transition: all 0.5s ease;
+}
+
+
+
+
+    #login-title2 {
+        font-size: 36px;
+        text-align: center;
+        margin: 0px;
+    }
+
+    .login-wrapper .input-boxR {
+        position: relative;
+        width: 100%;
+        height: 50px;
+        margin: 20px 0;
+    }
+        
+        .input-boxR input {
+            width: 100%;
+            height: 50px;
+
+
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 1);
+            outline: none;
+            color: rgb(255, 255, 255);
+            padding: 20px 45px 20px 20px;
+
+            border-radius: 40px;
+        }
+
+            .input-boxR input::placeholder {
+                color: rgb(255, 255, 255);
+            }
+
+        .input-boxR i {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            
+            font-size: 20px;
+        }
+    
+        .login-wrapper .btn {
+            width: 100%;
+            height: 45px;
+            
+            font-size: 16px;
+            font-weight: 600;
+
+            color: rgba(0, 0, 0, .2);
+            background-color: white;
+            border: none;
+            outline: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .login-wrapper .remember-me {
+            display: flex;
+            font-size: 14.5px;
+            margin: -15px 0 15px;
+        }
+
+            .remember-me input  {
+                accent-color: rgb(255, 255, 255);
+                margin-right: 3px;
+            }
+/* Login Form -- END */
+
+
+/* Register Form */
+.left {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+
+.reg-wrapper {
+    opacity: 0%;
+}
+
+.left.active .reg-wrapper {
+    width: 420px;
+
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    backdrop-filter: blur(100px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+
+    padding: 10px;
+
+    opacity: 100%;
+    transition: all 0.5s ease;
+}
+
+    #reg-title2 {
+        font-size: 36px;
+        text-align: center;
+        margin: 0px;
+    }
+
+    .reg-wrapper .input-boxL {
+        position: relative;
+        width: 100%;
+        height: 50px;
+        margin: 10px 0;
+    }
+        
+        .input-boxL input {
+            width: 100%;
+            height: 50px;
+
+
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 1);
+            outline: none;
+            color: rgb(255, 255, 255);
+            padding: 20px 45px 20px 20px;
+
+            border-radius: 40px;
+        }
+
+            .input-boxL input::placeholder {
+                color: rgb(255, 255, 255);
+            }
+
+        .input-boxL i {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            
+            font-size: 20px;
+        }
+    
+        .reg-wrapper .btn {
+            width: 100%;
+            height: 45px;
+            
+            font-size: 16px;
+            font-weight: 600;
+
+            color: rgba(0, 0, 0, .2);
+            background-color: white;
+            border: none;
+            outline: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 0px 0px;
+        }
+
+        .reg-wrapper .remember-me {
+            display: flex;
+            font-size: 14.5px;
+            margin: -15px 0 15px;
+        }
+
+            .remember-me input  {
+                accent-color: rgb(255, 255, 255);
+                margin-right: 3px;
+            }
+/* Register Form -- END */

@@ -1,0 +1,33 @@
+<h1 id="reg-title2">Register</h1>
+
+<form method="post" action="{% url 'register' %}" class="regform" onsubmit="return checkSubmit(this);">
+  {% csrf_token %}
+  <div class="input-boxL">
+      <input type="text" class="form-control" id="username" name="username" placeholder="Username" Required>
+      <i class='bx bxs-user'></i>
+  </div>
+  <div class="input-boxL">
+      <input type="email" class="form-control" id="email" name="email" placeholder="Email" Required>
+      <i class='bx bx-envelope'></i>
+  </div>
+  <div class="input-boxL">
+      <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Password" Required>
+      <i class='bx bxs-lock-alt'></i>
+  </div>
+
+  <div class="wrapper">
+      <div class="title">
+          <i class='bx bx-palette' ></i>
+        <h2>Interests</h2>
+      </div>
+      <div class="content">
+        <p>Please enter your interests for improved suggestions</p>
+        <ul><input id="input" class="input" type="text" spellcheck="false"></ul>
+      </div>
+      <div class="details">
+          <p><span>7</span> tags are remaining</p>
+        <button>Remove All</button>
+      </div>
+    </div>
+  <button id="regbtn" type="submit" class="input-boxL btn btn-primary">Sign Up</button>
+</form>
