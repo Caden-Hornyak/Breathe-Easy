@@ -5,7 +5,7 @@ import torch
 
 def run_chatbot(prompt):
     model_name="meta-llama/Llama-2-7b-chat-hf"
-    access_token = "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"
+    access_token = ""
 
     tokenizer = LlamaTokenizer.from_pretrained(model_name, use_auth_token=access_token)
     model = LlamaForCausalLM.from_pretrained(model_name, use_auth_token=access_token)
