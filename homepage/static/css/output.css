@@ -1,0 +1,38 @@
+.output-wrapper {
+    width: 500px;
+    height: 300px;
+    color: rgb(254, 255, 223);
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 15px;
+    opacity: 0%;
+    transition: opacity ease .5s;
+    padding: 10px;
+    display: inline;
+}
+
+/* #output {
+    
+} */
+
+.blinking-rectangle {
+    width: 8px;
+    height: 15px;
+    background-color: rgb(254, 255, 223);
+    animation: blink 1.3s infinite;
+    display: inline-block; 
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    0%, 50%, 100% {
+        opacity: .25;
+    }
+    25%, 75% {
+        opacity: 1;
+    }
+}
+
+.paused {
+    animation-play-state: paused;
+    opacity: 1;
+}

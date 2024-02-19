@@ -6,14 +6,16 @@
     <title>Document</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/spinner.css' %}">
-    <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mainpage.css' %}">
     <link rel="stylesheet" href="{% static 'css/background.css' %}">
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
     
     {% if newuser %}
     <link rel="stylesheet" href="{% static 'css/instructions.css' %}">
     {% endif %}
 </head>
 <body>
+
     <div class="background">
         <img id="one" class="blob" src="../static/images/mov-grad-background/start/Vector.png" alt="">
         <img id="two" class="blob" src="../static/images/mov-grad-background/start/Vector-7.png" alt="">
@@ -24,14 +26,26 @@
         <img id="seven" class="blob" src="../static/images/mov-grad-background/start/Vector-5.png" alt="">
         <img id="eight" class="blob" src="../static/images/mov-grad-background/start/Vector-1.png" alt="">
     </div>
+
     <div class="lds-ripple"><div></div><div></div></div>
-    {% if user.is_authenticated %}
-    <a href="{% url 'signout' %}">
-        <div class="signout">
-            <span>Sign Out</span>
-        </div>
-    </a>
-    {% endif %}
+
+    <div class="topbar">
+        <a href="{% url 'homepage' %}">
+            <div id="logo-image" class="fade-in">
+                <span>TITLE PLACEHOLDER</span>
+            </div>
+        </a>
+        <a href="{% url 'signout' %}">
+            <div id="premium" class="fade-in">
+                <span>Premium</span>
+            </div>
+        </a>
+        <a href="{% url 'signout' %}">
+            <div id="logout" class="fade-in">
+                <span>Log Out</span>
+            </div>
+        </a>
+    </div>
     
     {% if newuser %}
     <div class="instructions">
@@ -44,20 +58,28 @@
 
     {% endif %}
 
-    <h2 id="in-btn">Register</h2>
+    <button class="title-btn fade-in" id="outside-btn" onclick="send_user_data(this)">Outside</button>
+    <button class="title-btn fade-in" id="inside-btn" onclick="send_user_data(this)">Inside</button>
 
-    <h2 id="out-btn">Log In</h2>
-    <button onclick="send_user_data(this)">Outside</button>
-    <button onclick="send_user_data(this)">Inside</button>
+    <a href="{% url 'friends' %}">
+        <button class="title-btn fade-in" id="friends-btn" onclick="friends_tab()">Friends >></button>
+    </a>
+    <div class="output-wrapper">
+        <div class="output-text-container">
+            <span id="output"></span>
+            <div class="blinking-rectangle"></div>
+        </div> 
+    </div>
+
 
     <!-- django to js variables -->
-    <script data-username="{{ newuser }}">
+    <script data-newuser="{{ newuser }}">
         const data = document.currentScript.dataset;
-        const isNewUser = data.username;
+        const isNewUser = data.newuser == 'True';
     </script>
 
     <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
-    <script src="../static/js/jQuery.js"></script>
-    <script src="../static/js/homepage.js"></script>
+    <script src="../../static/js/jQuery.js"></script>
+    <script src="../static/js/mainpage.js"></script>
 </body>
 </html>

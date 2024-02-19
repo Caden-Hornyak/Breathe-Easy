@@ -14,6 +14,11 @@ class userAttribute(models.Model):
     tags = models.ManyToManyField(interest)
     new_user = models.BooleanField(default=True)
     remember_me = models.BooleanField(default=False)
+    friends = models.ManyToManyField("userAttribute", blank=True)
 
     def __str__(self):
         return self.username
+
+class friend_request(models.Model):
+    from_user = models.ForeignKey(userAttribute, null=True, related_name='from_user', on_delete=models.SET_NULL)
+    to_user = models.ForeignKey(userAttribute, null=True, related_name='to_user', on_delete=models.SET_NULL)
