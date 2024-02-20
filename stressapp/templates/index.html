@@ -12,7 +12,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-
+        
     <div class="left">
         <div class="lhighlight"></div>
         
@@ -29,9 +29,16 @@
             <span id="log-placeholder"></span> 
         </div>
     </div>
-    
+
+    <!-- django to js variables -->
+    <script data-side="{{ side }}">
+        const data = document.currentScript.dataset;
+        const side = data.side;
+    </script>
+
     <script src="../../static/js/jQuery.js"></script>
-    <script src="../static/js/index.js"></script>
     <script src="../static/js/tag-selector.js"></script>
+    <script src="../static/js/index.js"></script>
+    
 </body>
 </html>

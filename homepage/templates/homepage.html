@@ -74,12 +74,13 @@
 
     <!-- django to js variables -->
     <script data-newuser="{{ newuser }}">
+        window.CSRF_TOKEN = "{{ csrf_token }}"; 
         const data = document.currentScript.dataset;
         const isNewUser = data.newuser == 'True';
     </script>
 
-    <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
     <script src="../../static/js/jQuery.js"></script>
     <script src="../static/js/mainpage.js"></script>
+    <script src="../static/js/friends.js"></script>
 </body>
 </html>

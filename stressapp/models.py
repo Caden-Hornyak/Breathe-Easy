@@ -1,5 +1,5 @@
 from django.db import models
-
+import uuid
 # Create your models here.
 
 class interest(models.Model):
@@ -15,6 +15,8 @@ class userAttribute(models.Model):
     new_user = models.BooleanField(default=True)
     remember_me = models.BooleanField(default=False)
     friends = models.ManyToManyField("userAttribute", blank=True)
+    profile_picture = models.ImageField(default='default_profpic.png')
+    chats = models.ForeignKey('chat', null=True, related_name='chats', on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.username
@@ -22,3 +24,26 @@ class userAttribute(models.Model):
 class friend_request(models.Model):
     from_user = models.ForeignKey(userAttribute, null=True, related_name='from_user', on_delete=models.SET_NULL)
     to_user = models.ForeignKey(userAttribute, null=True, related_name='to_user', on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.from_user + " request to " + self.to_user
+
+
+class message(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(userAttribute, null=True, related_name='user', on_delete=models.SET_NULL)
+    date_created = models.DateTimeField(auto_now_add=True)
+    text = models.TextField(max_length=500)
+
+    def __str__(self):
+        return self.text
+
+
+class chat(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    participants = models.ManyToManyField(userAttribute, related_name='participants')
+    date_created = models.DateTimeField(auto_now_add=True)
+    chat_messages = models.ForeignKey(message, null=True, related_name='chat_messages', on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.participants

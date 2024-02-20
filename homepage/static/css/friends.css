@@ -1,7 +1,92 @@
+:root {
+    --sb-width: 200px;
+    --chat-width: calc(100% - var(--sb-width))
+  }
+
+* {
+    box-sizing: border-box;
+}
+
 textarea {
     resize: none;
+    overflow: hidden;
 }
 
 body {
     background-color: salmon;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
 }
+
+.ui-wrapper {
+    position: relative;
+    width: 90%;
+    height: 90vh;
+
+    min-width: 500px;
+    min-height: 350px;
+
+    color: rgb(254, 255, 223);
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 15px;
+    opacity: 100%;
+    transition: opacity ease .5s;
+    display: inline;
+}
+
+    .left-column {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: var(--sb-width);
+        height: 100%;
+
+        border: 1px solid #ddd; 
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+
+        .user-info {
+            width: var(--sb-width);
+            height: 50px;
+        }
+
+        .friend_request {
+            width: var(--sb-width);
+            height: 30px;
+        }
+
+        .friend-column {
+            position: absolute;
+            height: calc(100% - 80px);
+            width: var(--sb-width);
+            overflow-y: auto; 
+            border: 1px solid #ddd; 
+        }
+
+            .friend-list {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+                .friend-list-div {
+                    width: var(--sb-width);
+                    height: 75px;
+                    border: 1px solid #ddd; 
+                }
+
+    .chat {
+        position: absolute;
+        width: var(--chat-width);
+        height: 100%;
+        left: var(--sb-width);
+
+        border: 1px solid #ddd; 
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }

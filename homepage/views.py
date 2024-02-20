@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from stressapp.models import userAttribute, friend_request
+from stressapp.models import userAttribute, friend_request, chat, message
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 import sys
 from django.http import JsonResponse
 from llama2.llama2 import run_chatbot
+
 
 # Create your views here.
 def homepage(request):
@@ -25,7 +26,9 @@ def homepage(request):
         user.new_user = False
         user.save()
 
-    return render(request, 'homepage.html', {'username': username, 'newuser': isnewuser})
+
+    return render(request, 'homepage.html', {'username': username, 'newuser': isnewuser, 'prof_pic': user.profile_picture,
+                                             'tags': [instance.interest for instance in user.tags.all()]})
 
 
 @login_required
@@ -56,13 +59,17 @@ def prompt_reciever(request):
 @login_required
 def send_friend_request(request):
     if request.method == 'POST':
-        from_user = userAttribute.objects.get(username=request.session.get('username', None))
-        to_user = userAttribute.objects.get(username=request.POST['to_user'])
-        if not to_user:
-            # return error
-            pass
+        try:
+            from_user = userAttribute.objects.get(username=request.session.get('username', None))
+            to_user = userAttribute.objects.get(username=request.POST['to_user'])
+        except userAttribute.DoesNotExist:
+            return JsonResponse({'response': 'User does not exist'})
 
         curr_friend_req, created = friend_request.objects.get_or_create(from_user=from_user, to_user=to_user)
+        if (from_user.username == to_user.username):
+            return JsonResponse({'response': 'You sent a friend request to yourself...'})
+        else:
+            return JsonResponse({'response': 'Friend request sent'})
 
 @login_required
 def accept_friend_request(request):
@@ -71,10 +78,59 @@ def accept_friend_request(request):
         curr_friend_req.to_user.friends.add(curr_friend_req.from_user)
         curr_friend_req.from_user.friends.add(curr_friend_req.to_user)
         curr_friend_req.delete()
-        return JsonResponse({'message': 'Friend request accepted!'})
+        return JsonResponse({'response': 'Friend request accepted!'})
     else:
-        return JsonResponse({'message': 'Unable to accept friend request. :/'})
+        return JsonResponse({'response': 'Unable to accept friend request. :/'})
     
 @login_required
 def friends(request):
-    return render(request, 'friends.html')
+    friends = ['friend' for i in range(30)]
+    return render(request, 'friends.html', {'friends': friends})
+
+@login_required
+def create_chat(request):   
+    if request.method == 'POST':
+        participants = request.POST['usernames']
+        if chat.objects.filter(participants=participants).exists():
+            return chat.objects.filter(participants=participants).id
+        
+        new_chat = chat(participants=participants)
+        new_chat.save()
+        return new_chat.id
+
+@login_required
+def message_action(request):
+    if request.method == 'POST':
+        action = request.POST['action']
+        chat_id = request.POST['chat_id']
+        participants = request.POST['participants']
+        message_for_action = request.POST['text']
+        message_owner = request.POST['message_owner']
+
+        try:
+            curr_chat = chat.objects.filter(id=chat_id)
+        except chat.DoesNotExist:
+            curr_chat = chat(participants=participants)
+        
+        
+        if not curr_chat:
+            return JsonResponse({'response': 'Unable to find chat.'})
+        
+        if action == 'destroy':
+            message_id = request.POST['message_id']
+            try:
+                message_to_delete = curr_chat.messages.get(id=message_id)
+            except message.DoesNotExist:
+                return JsonResponse({'response': 'Unable to find message'})
+            
+            message_to_delete.delete()
+        elif action == 'create':
+            new_message = message(user=message_owner, text=message_for_action)
+            new_message.save()
+        else:
+            return JsonResponse({'response': 'Invalid Message Action'})
+    
+
+
+    message_l = curr_chat.chat_messages.order_by('-date_created')[:50:-1]
+    return JsonResponse({'messages': message_l})

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout
@@ -12,7 +12,14 @@ import sys
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+
+    if 'side' in request.session:
+        side = request.session.get('side', None)
+        request.session.pop('side', None)
+    else:
+        side = 'middle'
+
+    return render(request, "index.html", {'side': side})
 
 def register(request):
 
@@ -24,20 +31,24 @@ def register(request):
         tags = request.POST['tags']
         
         if User.objects.filter(username=username):
-            messages.error(request, "Username already exists! Please try some other username.")
+            messages.error(request, "Username already exists!")
+            request.session['side'] = 'left'
             return redirect('index')
         
         if User.objects.filter(email=email).exists():
-            messages.error(request, "Email Already Registered!")
+            messages.error(request, "Email already has an account!")
+            request.session['side'] = 'left'
             return redirect('index')
         
         if len(username)>20:
             messages.error(request, "Username must be under 20 charcters!")
+            request.session['side'] = 'left'
             return redirect('index')
         
-        if not username.isalnum():
-            messages.error(request, "Username must be Alpha-Numeric!")
-            return redirect('index')
+        # if not username.isalnum():
+        #     messages.error(request, "Username must be Alpha-Numeric!")
+        #     request.session['side'] = 'left'
+        #     return redirect('index')
         
         # if user entered tag does not already exist, save it
         tagl = tags.split(',')
@@ -57,7 +68,7 @@ def register(request):
         
         return redirect('index')
 
-    return render(request, "register.html")
+    return render(request, 'register.html')
 
 
 def login(request):
@@ -82,11 +93,15 @@ def login(request):
             return redirect(reverse('homepage'))
         else:
             messages.error(request, "Bad Credentials!")
+            request.session['side'] = 'right'
             return redirect('index')
         
-    return render(request, "login.html")
+    return render(request, 'login.html')
 
 def signout(request):
     logout(request)
     
     return redirect('index')
+
+
+        

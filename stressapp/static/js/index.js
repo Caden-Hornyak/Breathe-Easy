@@ -7,6 +7,7 @@ let reg_title1 = $("#reg-title"), log_title1 = $("#login-title");
 
 // On page load, display "register" and "login"
 document.addEventListener('DOMContentLoaded', function() {
+    
     reg_title1[0].style.opacity = "1";
     log_title1[0].style.opacity = "1";
 }, false);
@@ -84,7 +85,12 @@ right[0].onclick = function() {
     
 };
 
-
+// error message handling
+if (side == 'right') {
+    right.click();
+} else if (side == 'left') {
+    left.click()
+}
 
 
 function checkSubmit(e) {

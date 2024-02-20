@@ -6,7 +6,8 @@ def run_chatbot(prompt):
     model = AutoModelForCausalLM.from_pretrained(model_name_or_path,
                                                 device_map="cuda",
                                                 trust_remote_code=False,
-                                                revision="gptq-4bit-64g-actorder_True")
+                                                revision="gptq-4bit-128g-actorder_True",
+                                                )
 
     tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, use_fast=True)
 

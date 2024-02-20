@@ -8,9 +8,44 @@
     <link rel="stylesheet" href="{% static 'css/friends.css' %}">
 </head>
 <body>
-    <div class="friend_request">
-        <textarea name="" id="" cols="30" rows="1"></textarea>
+    <div class="ui-wrapper">
+        <div class="left-column">
+            <div class="user-info">
+                <h3>UserName</h3>
+                <img src="{{prof_pic}}" alt="">
+            </div>
+            <div class="friend_request">
+                <span>Friend ID: </span>
+                <textarea class="friend-code" name="" id="" cols="15" rows="1"></textarea>
+            </div>
+            <div class="friend-column">
+                {% if friends %}
+                <ul class="friend-list">
+                    {% for friend in friends %}
+                    <div class="friend-list-div">
+                        <li class="friend-list-item">{{ friend }}</li>
+                    </div>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>You have no friends </p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="chat">
+            <div class="chat-history">
+
+            </div>
+            <div class="curr-message">
+                <textarea class="curr-chat-msg" name="" id="" cols="15" rows="1"></textarea>
+            </div>
+        </div>
     </div>
 
+    <script>
+        window.CSRF_TOKEN = "{{ csrf_token }}"; 
+    </script>
+    <script src="../../static/js/jQuery.js"></script>
+    <script src="../../static/js/friends.js"></script>
 </body>
 </html>

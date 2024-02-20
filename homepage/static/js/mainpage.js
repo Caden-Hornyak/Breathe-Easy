@@ -39,7 +39,6 @@ function hide_titles() {
 }
 
 function display_output(index) {
-    console.log(output[0], index);
     output[0].textContent += chatbot_output[index] + " ";
 
     if (index < chatbot_output.length) {
@@ -59,12 +58,12 @@ window.send_user_data = function send_user_data(button) {
     var userInput = button.innerText;
 
     //while testing
-    let text = "I'm glad to hear that you enjoy rap and hip-hop music! Here are some popular rap and hip-hop songs without any explanations:"
-    chatbot_output = text.split(" ")       
-    output_wrapper[0].style.opacity = "1";   
-    blinking_rectangle[0].classList.toggle("paused");
-    display_output(0);
-    return;
+    // let text = "I'm glad to hear that you enjoy rap and hip-hop music! Here are some popular rap and hip-hop songs without any explanations:"
+    // chatbot_output = text.split(" ")       
+    // output_wrapper[0].style.opacity = "1";   
+    // blinking_rectangle[0].classList.toggle("paused");
+    // display_output(0);
+    // return;
 
     $.ajax({
         type: 'POST',
