@@ -6,46 +6,63 @@
     <title>Document</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/friends.css' %}">
+    <link rel="stylesheet" href="{% static 'css/friend_selector_dropdown.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+    <div class="friend_request">
+    <span>Friend ID: </span>
+                <textarea class="friend-code" name="" id="" cols="15" rows="1"></textarea>
+            </div>
+                
     <div class="ui-wrapper">
         <div class="left-column">
             <div class="user-info">
-                <h3>UserName</h3>
+                <span>Username</span>
                 <img src="{{prof_pic}}" alt="">
             </div>
-            <div class="friend_request">
-                <span>Friend ID: </span>
-                <textarea class="friend-code" name="" id="" cols="15" rows="1"></textarea>
+            <div class="chats">
+                
+                <button class="create-chat">
+                    <span>Create Chat</span>
+                    <i class='bx bx-plus'></i>
+                </button>
             </div>
             <div class="friend-column">
-                {% if friends %}
                 <ul class="friend-list">
-                    {% for friend in friends %}
-                    <div class="friend-list-div">
-                        <li class="friend-list-item">{{ friend }}</li>
-                    </div>
-                    {% endfor %}
                 </ul>
-                {% else %}
-                <p>You have no friends </p>
-                {% endif %}
             </div>
         </div>
-        <div class="chat">
-            <div class="chat-history">
 
+        <div class="wrapper">
+            <div class="title">
+                <span>Friends</span>
+            </div>
+            <div class="content">
+              <ul><input id="input" class="input" type="text" spellcheck="false"></ul>
+            </div>
+        </div>
+
+        <div class="chat">
+            <div class="chat-messages">
+                <ul class="message-list">
+
+                </ul>
             </div>
             <div class="curr-message">
                 <textarea class="curr-chat-msg" name="" id="" cols="15" rows="1"></textarea>
+                <button class="send-message">
+                    <i class='bx bxs-up-arrow-circle'></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <script>
+    <script data-chats ="{{ chats|safe }}">
         window.CSRF_TOKEN = "{{ csrf_token }}"; 
     </script>
     <script src="../../static/js/jQuery.js"></script>
-    <script src="../../static/js/friends.js"></script>
+    <script src="{% static 'js/friends.js' %}"></script>
+    <script src="{% static 'js/friend_selector_dropdown.js' %}"></script>
 </body>
 </html>

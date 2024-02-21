@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 import sys
 from django.http import JsonResponse
 from llama2.llama2 import run_chatbot
+import json
 
 
 # Create your views here.
@@ -26,8 +27,7 @@ def homepage(request):
         user.new_user = False
         user.save()
 
-
-    return render(request, 'homepage.html', {'username': username, 'newuser': isnewuser, 'prof_pic': user.profile_picture,
+    return render(request, 'homepage.html', {'username': username, 'newuser': isnewuser, 'prof_pic': user.profile_picture.url,
                                              'tags': [instance.interest for instance in user.tags.all()]})
 
 
@@ -84,8 +84,23 @@ def accept_friend_request(request):
     
 @login_required
 def friends(request):
-    friends = ['friend' for i in range(30)]
-    return render(request, 'friends.html', {'friends': friends})
+    return render(request, 'friends.html', {'friends': ['friend' for i in range(20)]})
+
+@login_required
+def get_chats(request):
+    username = request.session.get('username', None)
+    user = userAttribute.objects.get(username=username)
+    chats = []
+    for chat in user.chats.all():
+        participants = [participant.username for participant in chat.participants.all() if participant.username != username]
+        if len(participants) > 2:
+            prof_pic = '/static/media/default_groupchat.png'
+        else:
+            prof_pic = user.profile_picture.url
+        chat_name = ', '.join(participants)
+        chats.append([chat.id, chat_name, prof_pic[1:], chat.date_created.strftime('%m/%d/%Y')])
+
+    return JsonResponse({'chats': chats})
 
 @login_required
 def create_chat(request):   
@@ -101,20 +116,21 @@ def create_chat(request):
 @login_required
 def message_action(request):
     if request.method == 'POST':
-        action = request.POST['action']
         chat_id = request.POST['chat_id']
-        participants = request.POST['participants']
-        message_for_action = request.POST['text']
-        message_owner = request.POST['message_owner']
+        action = request.POST['action']
 
         try:
-            curr_chat = chat.objects.filter(id=chat_id)
+            curr_chat = chat.objects.get(id=chat_id)
         except chat.DoesNotExist:
-            curr_chat = chat(participants=participants)
+            return JsonResponse({'response': 'Chat does not exist.'})
         
+        if action == 'get':
+            message_l = curr_chat.chat_messages.order_by('-date_created')[:50:-1]
+            return JsonResponse({'messages': message_l})
+            
         
-        if not curr_chat:
-            return JsonResponse({'response': 'Unable to find chat.'})
+        participants = curr_chat.participants.all()
+        
         
         if action == 'destroy':
             message_id = request.POST['message_id']
@@ -125,12 +141,11 @@ def message_action(request):
             
             message_to_delete.delete()
         elif action == 'create':
-            new_message = message(user=message_owner, text=message_for_action)
+            new_message = message(user=userAttribute.objects.get(username=request.session.get('username', None)),
+                                   text=request.POST['text'])
             new_message.save()
+            return JsonResponse({'messages': 'Message Created'})
         else:
             return JsonResponse({'response': 'Invalid Message Action'})
-    
 
-
-    message_l = curr_chat.chat_messages.order_by('-date_created')[:50:-1]
-    return JsonResponse({'messages': message_l})
+    return JsonResponse({'messages': 'Invalid HTTP request to message_action'})

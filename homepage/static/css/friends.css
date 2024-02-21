@@ -1,6 +1,7 @@
 :root {
     --sb-width: 200px;
-    --chat-width: calc(100% - var(--sb-width))
+    --chat-width: calc(100% - var(--sb-width));
+    --bord-rad: 15px;
   }
 
 * {
@@ -22,17 +23,35 @@ body {
     overflow: hidden;
 }
 
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgb(254, 255, 223);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
 .ui-wrapper {
     position: relative;
     width: 90%;
     height: 90vh;
 
-    min-width: 500px;
+    min-width: 600px;
     min-height: 350px;
 
     color: rgb(254, 255, 223);
     background-color: rgba(0, 0, 0, .5);
-    border-radius: 15px;
+    border-radius: var(--bord-rad);
     opacity: 100%;
     transition: opacity ease .5s;
     display: inline;
@@ -46,8 +65,8 @@ body {
         height: 100%;
 
         border: 1px solid #ddd; 
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
+        border-top-left-radius: var(--bord-rad);
+        border-bottom-left-radius: var(--bord-rad);
     }
 
         .user-info {
@@ -55,38 +74,129 @@ body {
             height: 50px;
         }
 
-        .friend_request {
+        .create-chat {
+            position: absolute;
+            right: 0;
+            margin: 10px 0px;
+        }
+
+        .chats {
             width: var(--sb-width);
             height: 30px;
         }
+
+            .chats button {
+                background-color: transparent;
+                border: none;
+            }
+
+            .chats i {
+                font-size: 1rem;
+            }
 
         .friend-column {
             position: absolute;
             height: calc(100% - 80px);
             width: var(--sb-width);
             overflow-y: auto; 
+            overflow-x: hidden;
             border: 1px solid #ddd; 
+            border-radius: var(--bord-rad);
         }
 
             .friend-list {
                 list-style-type: none;
                 padding: 0;
                 margin: 0;
+                
             }
 
                 .friend-list-div {
+                    position: relative;
                     width: var(--sb-width);
-                    height: 75px;
-                    border: 1px solid #ddd; 
+                    height: 60px;
+                    border: 1px solid #ddd;
+                    padding: 15px; 
                 }
+
+                    .friend-list img {
+                        position: absolute;
+                        left: 5px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 35px;
+                        height: 35px;
+                    }
+
+                    .friend-list li {
+                        font-family: Helvetica, Arial, sans-serif;
+                        font-size: .7rem;
+                    }
+
+                    .chat-name {
+                        position: absolute;
+                        left: 47px;
+                    }
+
+                    .chat-date {
+                        position: absolute;
+                        font-family: Helvetica, Arial, sans-serif;
+                        font-size: .75rem;
+                        right: 20px;
+                    }
+
+
 
     .chat {
         position: absolute;
         width: var(--chat-width);
+        min-width: 400px;
         height: 100%;
         left: var(--sb-width);
 
         border: 1px solid #ddd; 
-        border-top-right-radius: 15px;
-        border-bottom-right-radius: 15px;
+        border-top-right-radius: var(--bord-rad);
+        border-bottom-right-radius: var(--bord-rad);
     }
+
+        .chat-messages {
+
+            width: 100%;
+            height: 90%;
+        }
+
+        .message-list {
+            list-style-type: none;
+        }
+
+        .curr-message {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+        }
+
+
+            .curr-message textarea {
+                width: 80%;
+                height: 50%;
+            }
+
+            .curr-message button {
+                margin: 5px;
+                height: 25px;
+                width: 25px;
+                color: rgb(255, 231, 154);
+                background-color: transparent;
+                border: none;
+                font-size: 20px;
+                padding: 0;
+            }
+
+            .curr-message i {
+                font-size: 1.5rem;
+                height: 100%;
+                width: 100%;
+            }

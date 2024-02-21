@@ -16,14 +16,14 @@ class userAttribute(models.Model):
     remember_me = models.BooleanField(default=False)
     friends = models.ManyToManyField("userAttribute", blank=True)
     profile_picture = models.ImageField(default='default_profpic.png')
-    chats = models.ForeignKey('chat', null=True, related_name='chats', on_delete=models.SET_NULL)
+    chats = models.ManyToManyField('chat', blank=True, related_name='chats')
 
     def __str__(self):
         return self.username
 
 class friend_request(models.Model):
-    from_user = models.ForeignKey(userAttribute, null=True, related_name='from_user', on_delete=models.SET_NULL)
-    to_user = models.ForeignKey(userAttribute, null=True, related_name='to_user', on_delete=models.SET_NULL)
+    from_user = models.ForeignKey(userAttribute, blank=True, null=True, related_name='from_user', on_delete=models.SET_NULL)
+    to_user = models.ManyToManyField(userAttribute, blank=True, related_name='to_user')
 
     def __str__(self):
         return self.from_user + " request to " + self.to_user
@@ -31,7 +31,7 @@ class friend_request(models.Model):
 
 class message(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(userAttribute, null=True, related_name='user', on_delete=models.SET_NULL)
+    user = models.ForeignKey(userAttribute, blank=True, null=True, related_name='user', on_delete=models.SET_NULL)
     date_created = models.DateTimeField(auto_now_add=True)
     text = models.TextField(max_length=500)
 
@@ -43,7 +43,7 @@ class chat(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     participants = models.ManyToManyField(userAttribute, related_name='participants')
     date_created = models.DateTimeField(auto_now_add=True)
-    chat_messages = models.ForeignKey(message, null=True, related_name='chat_messages', on_delete=models.SET_NULL)
+    chat_messages = models.ManyToManyField(message, blank=True, related_name='chat_messages')
 
     def __str__(self):
-        return self.participants
+        return ''.join(str(self.participants))
