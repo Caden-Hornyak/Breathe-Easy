@@ -14,49 +14,60 @@
     <span>Friend ID: </span>
                 <textarea class="friend-code" name="" id="" cols="15" rows="1"></textarea>
             </div>
-                
-    <div class="ui-wrapper">
-        <div class="left-column">
-            <div class="user-info">
-                <span>Username</span>
-                <img src="{{prof_pic}}" alt="">
-            </div>
-            <div class="chats">
-                
-                <button class="create-chat">
+    <div class="outer-border">
+        <div class="ui-wrapper">
+            <div class="left-column">
+                <div class="user-info">
+                    <img src="{{prof_pic}}" alt="">
+                    <span>{{username}}</span>
+                </div>
+                <div class="create-chat-div">
                     <span>Create Chat</span>
-                    <i class='bx bx-plus'></i>
-                </button>
+                    <button class="create-chat">
+                        <i class='bx bx-plus'></i>
+                    </button>
+                </div>
+                <div class="friend-column">
+                    <ul class="friend-list">
+                        
+                    </ul>
+                </div>
             </div>
-            <div class="friend-column">
-                <ul class="friend-list">
-                </ul>
-            </div>
-        </div>
 
-        <div class="wrapper">
-            <div class="title">
-                <span>Friends</span>
-            </div>
-            <div class="content">
-              <ul><input id="input" class="input" type="text" spellcheck="false"></ul>
-            </div>
-        </div>
+            <div class="friend-selector">
+                <span>Select Friends</span>
+                <br>
+                <textarea name="" id="" cols="10" rows="1" class="friend-tag-selector"></textarea>
+                <form action="">
+                    <ul class="selector-friend-list">
 
-        <div class="chat">
-            <div class="chat-messages">
-                <ul class="message-list">
-
-                </ul>
+                    </ul>
+                    
+                </form>
+                <button type="button" class="friend-selector-submit">Create chat</button>
             </div>
-            <div class="curr-message">
-                <textarea class="curr-chat-msg" name="" id="" cols="15" rows="1"></textarea>
-                <button class="send-message">
-                    <i class='bx bxs-up-arrow-circle'></i>
-                </button>
+
+            <div class="chat">
+                <div class="chat-messages">
+                    <ul class="message-list">
+                        <div class="my-message">
+                            <li>Hey im here.</li>
+                        </div>
+                        <div class="not-my-message">
+                            <li>Ok.</li>
+                        </div>
+                    </ul>
+                </div>
+                <div class="curr-message">
+                    <textarea class="curr-chat-msg" name="" id="" cols="15" rows="1"></textarea>
+                    <button class="send-message">
+                        <i class='bx bxs-up-arrow-circle'></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+    
 
     <script data-chats ="{{ chats|safe }}">
         window.CSRF_TOKEN = "{{ csrf_token }}"; 

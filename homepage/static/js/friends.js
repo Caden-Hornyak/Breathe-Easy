@@ -11,6 +11,7 @@ let user_chats_store;
 
 const chats = new Map();
 let curr_chat_select;
+let curr_chat_select_messages;
 
 // Add Friend -- START
 function send_friend_code() {
@@ -79,6 +80,7 @@ function display_chats() {
         for (var i = 0; i < user_chats_in.length; i++) {
 
             var outer_div = document.createElement('div');
+            outer_div.id = "friend-list-div-"+ i.toString();
             outer_div.className = 'friend-list-div';
         
             var chat_name = document.createElement('li');
@@ -101,9 +103,8 @@ function display_chats() {
             chats.set(outer_div.id, user_chats_in[i][0]);
 
             outer_div.onclick = function() {
-                console.log(chats.get(this.id));
-                curr_chat_select = this;
-                get_message(this);
+                curr_chat_select = this.id;
+                get_message();
                 
             }
         }
@@ -112,6 +113,7 @@ function display_chats() {
         no_friends.textContent = "You have no chats";
         message_list[0].appendChild(no_friends);
     }
+    
 }
 // Get/Display user chats -- END
 
@@ -123,13 +125,13 @@ function create_destroy_message(action, text="") {
         url: '/homepage/message_action/',
         data: {
             'action': action,
-            'chat_id': chats.get(curr_chat_select.id),
+            'chat_id': chats.get(curr_chat_select),
             'text': text,
             csrfmiddlewaretoken: window.CSRF_TOKEN,
         },
         dataType: 'json',
         success: function (data) {
-            user_chats = data['chats'];
+            get_message(curr_chat_select);
         },
         error: function (error) {
             console.error('Error:', error);
@@ -137,23 +139,52 @@ function create_destroy_message(action, text="") {
     });
 }
 
-function get_message(div) {
+function get_message() {
+
     $.ajax({
         type: 'POST',
         url: '/homepage/message_action/',
         data: {
             'action': 'get',
-            'chat_id': chats.get(div.id),
+            'chat_id': chats.get(curr_chat_select),
             csrfmiddlewaretoken: window.CSRF_TOKEN,
         },
         dataType: 'json',
         success: function (data) {
-            user_chats_in = data['chats'];
+            curr_chat_select_messages = data['messages'];
+            display_message(curr_chat_select_messages);
         },
         error: function (error) {
             console.error('Error:', error);
         },
     });
+}
+
+function display_message(curr_chat_select_messages) {
+
+
+    var ul = $('.message-list');
+    ul.empty();
+    // Append new messages to the ul
+    curr_chat_select_messages.forEach(function(message_pair) {
+        var div = document.createElement('div');
+        if (message_pair[1]) {
+            div.className = 'my-message';
+        } else  {
+            div.className = 'not-my-message'
+        }
+    
+        var message = document.createElement('li');
+        message.textContent = message_pair[0];
+
+        div.appendChild(message);
+            
+        div.appendChild(message);
+        ul[0].append(div);
+    });
+
+    // Scroll to the bottom of the ul
+    ul.scrollTop(ul[0].scrollHeight);
 }
 
 chat_message_input[0].addEventListener("focus", (event) => {
@@ -167,7 +198,7 @@ chat_message_input[0].addEventListener("focus", (event) => {
   });
 
 body[0].addEventListener('keydown', function(event) {
-    console.log("HELLO");
+
     if (event.key === 'Enter') {
         if (friend_code_box_focus) {
             send_friend_code();

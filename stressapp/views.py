@@ -89,7 +89,10 @@ def login(request):
                 request.session.set_expiry(1209600)
             else:
                 request.session.set_expiry(0)
-
+            
+            user_atr = userAttribute.objects.get(username=username)
+            user_atr.active = True
+            user_atr.save()
             return redirect(reverse('homepage'))
         else:
             messages.error(request, "Bad Credentials!")
@@ -99,6 +102,9 @@ def login(request):
     return render(request, 'login.html')
 
 def signout(request):
+    user_atr = userAttribute.objects.get(username=request.session.get('username', None))
+    user_atr.active = True
+    user_atr.save()
     logout(request)
     
     return redirect('index')

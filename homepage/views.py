@@ -83,8 +83,14 @@ def accept_friend_request(request):
         return JsonResponse({'response': 'Unable to accept friend request. :/'})
     
 @login_required
+def friends_page(request):
+    user = userAttribute.objects.get(username=request.session.get('username', None))
+    return render(request, 'friends.html', {'prof_pic': user.profile_picture.url, 'username': user.username})
+
+@login_required
 def friends(request):
-    return render(request, 'friends.html', {'friends': ['friend' for i in range(20)]})
+    user = userAttribute.objects.get(username=request.session.get('username', None))
+    return JsonResponse({'friends': [[friend.username, friend.profile_picture.url] for friend in user.friends.all()]})
 
 @login_required
 def get_chats(request):
@@ -92,12 +98,13 @@ def get_chats(request):
     user = userAttribute.objects.get(username=username)
     chats = []
     for chat in user.chats.all():
-        participants = [participant.username for participant in chat.participants.all() if participant.username != username]
-        if len(participants) > 2:
+        participants = [participant for participant in chat.participants.all() if participant.username != username]
+        if len(participants) > 1:
             prof_pic = '/static/media/default_groupchat.png'
         else:
-            prof_pic = user.profile_picture.url
-        chat_name = ', '.join(participants)
+            prof_pic = participants[0].profile_picture.url
+
+        chat_name = ', '.join([participant.username for participant in participants])
         chats.append([chat.id, chat_name, prof_pic[1:], chat.date_created.strftime('%m/%d/%Y')])
 
     return JsonResponse({'chats': chats})
@@ -118,18 +125,17 @@ def message_action(request):
     if request.method == 'POST':
         chat_id = request.POST['chat_id']
         action = request.POST['action']
+        user = userAttribute.objects.get(username=request.session.get('username', None))
 
         try:
             curr_chat = chat.objects.get(id=chat_id)
         except chat.DoesNotExist:
             return JsonResponse({'response': 'Chat does not exist.'})
         
+
         if action == 'get':
             message_l = curr_chat.chat_messages.order_by('-date_created')[:50:-1]
-            return JsonResponse({'messages': message_l})
-            
-        
-        participants = curr_chat.participants.all()
+            return JsonResponse({'messages': [[message.text, message.user.username == user.username] for message in message_l]})
         
         
         if action == 'destroy':
@@ -144,6 +150,9 @@ def message_action(request):
             new_message = message(user=userAttribute.objects.get(username=request.session.get('username', None)),
                                    text=request.POST['text'])
             new_message.save()
+            curr_chat.chat_messages.add(new_message)
+            curr_chat.save()
+            
             return JsonResponse({'messages': 'Message Created'})
         else:
             return JsonResponse({'response': 'Invalid Message Action'})

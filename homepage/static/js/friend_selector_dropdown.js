@@ -1,72 +1,84 @@
-let maxTags = 7;
-let tags = [];
-let tagNumb;
-let input;
-let ul;
+let friend_selector = $('.friend-selector');
+let create_chat_btn = $('.create-chat');
+let friend_list = $('.selector-friend-list');
+
+create_chat_btn[0].onclick = function(event) {
+    
+    if (friend_selector[0].style.opacity != '1') {
+        event.stopPropagation(); 
+    } else {
+        return;
+    }
+
+    friend_selector[0].style.opacity = '1';
+    friend_selector[0].style.pointerEvents = 'auto';
+    get_friends();
+}
+
+console.log(friend_selector[0]);
+friend_selector[0].onclick = function(event) {
+    event.stopPropagation(); 
+}
+
+document.addEventListener('click', function() {
+    friend_list.empty()
+    friend_selector[0].style.opacity = '0';
+    friend_selector[0].style.pointerEvents = 'none';
+});
 
 
-function friend_select_dropdown() {
-    setTimeout(function() {
-
-        $('.regform')[0].addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-            }
-        });
-
-        ul = document.querySelector("ul");
-        input = ul.querySelector("input");
-        tagNumb = document.querySelector(".details span");
-        
-
-        countTags();
-        createTag();
-        input.addEventListener("keyup", addTag);
-
-        input.addEventListener("keyup", addTag);
-        const removeBtn = document.querySelector(".details button");
-            removeBtn.addEventListener("click", () =>{
-            tags.length = 0;
-            ul.querySelectorAll("li").forEach(li => li.remove());
-            countTags();
+function get_friends() {
+    let friends;
+    $.ajax({
+        type: 'POST',
+        url: '/homepage/friends/',
+        data: {
+            csrfmiddlewaretoken: window.CSRF_TOKEN,
+        },
+        dataType: 'json',
+        success: function (data) {
+            friends = data['friends']
+            display_friends(friends)
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        },
     });
-    
-    }, 1000);
 
-    window.remove = function remove(element, tag) {
-        let index  = tags.indexOf(tag);
-        tags = [...tags.slice(0, index), ...tags.slice(index + 1)];
-        element.parentElement.remove();
-        countTags();
-    }
 
-    function countTags() {
-        input.focus();
-        tagNumb.innerText = maxTags - tags.length;
-    }
+}
 
-    function createTag() {
-        ul.querySelectorAll("li").forEach(li => li.remove());
-        tags.slice().reverse().forEach(tag =>{
-            let liTag = `<li>${tag} <i class="uit uit-multiply" onclick="remove(this, '${tag}')"></i></li>`;
-            ul.insertAdjacentHTML("afterbegin", liTag);
-        });
-        countTags();
-    }
+function display_friends(friends) {
+    if (friends.length > 0) {
+        for (var i = 0; i < friends.length; i++) {
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = 'checkbox-' + i.toString();
 
-    
-    function addTag(e){
-        if(e.key == "Enter"){
-            let tag = e.target.value.replace(/\s+/g, ' ');
-            if(tag.length > 1 && !tags.includes(tag)){
-                if(tags.length < 10){
-                    tag.split(',').forEach(tag => {
-                        tags.push(tag);
-                        createTag();
-                    });
-                }
-            }
-            e.target.value = "";
+            var label = document.createElement('label');
+            label.for = 'checkbox-' + i.toString();
+            label.innerHTML = friends[i][0];
+
+            var prof_pic = document.createElement('img');
+            prof_pic.src = friends[i][1];
+
+            var div = document.createElement('div');
+            div.className = 'selector-friend-li';
+            div.appendChild(prof_pic);
+            div.appendChild(label);
+            div.appendChild(checkbox);
+            
+            friend_list[0].append(div);
         }
+    } else {
+        // you have no friends
     }
 }
+
+$('.friend-selector-submit').onclick = function() {
+
+}
+
+$('.friend-tag-selector').keypress(function() {
+    this.rows = Math.floor(this.value.length / 25) + 1;
+})

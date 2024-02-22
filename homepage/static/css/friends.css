@@ -24,7 +24,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
 }
 
 /* Track */
@@ -41,10 +41,22 @@ body {
     background: rgb(254, 255, 223);
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
-.ui-wrapper {
-    position: relative;
-    width: 90%;
+
+.outer-border {
+    position: absolute;
     height: 90vh;
+    width: 90vw;
+    min-width: 600px;
+    min-height: 350px;
+    background-color: rgb(227, 97, 97);
+    border-bottom-right-radius: var(--bord-rad);
+}
+.ui-wrapper {
+    position: absolute;
+    width: 97%;
+    height: 97%;
+    bottom: 0;
+    right: 0;
 
     min-width: 600px;
     min-height: 350px;
@@ -52,6 +64,7 @@ body {
     color: rgb(254, 255, 223);
     background-color: rgba(0, 0, 0, .5);
     border-radius: var(--bord-rad);
+    border-top-right-radius: 0px;
     opacity: 100%;
     transition: opacity ease .5s;
     display: inline;
@@ -64,44 +77,69 @@ body {
         width: var(--sb-width);
         height: 100%;
 
-        border: 1px solid #ddd; 
         border-top-left-radius: var(--bord-rad);
         border-bottom-left-radius: var(--bord-rad);
     }
 
         .user-info {
+            position: relative;
             width: var(--sb-width);
-            height: 50px;
+            height: 75px;
         }
 
-        .create-chat {
-            position: absolute;
-            right: 0;
-            margin: 10px 0px;
-        }
+            .user-info img {
+                margin: 10px;
+                width: 60px;
+                height: 60px;
+            }
 
-        .chats {
-            width: var(--sb-width);
+            .user-info span {
+                margin: 15px;
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+
+        .create-chat-div {
+            display: flex;
+            position: relative;
+            align-items: center;
+            padding: 10px;
             height: 30px;
+            width: var(--sb-width);
         }
 
-            .chats button {
+            .create-chat-div span {
+                font-size: .8rem;
+            }
+
+            .create-chat-div button {
+                position: absolute;
+                display: flex;
+                align-items: center;
+                padding: 0px;
+                width: 20px;
+                height: 20px;
+                right: 0;
                 background-color: transparent;
                 border: none;
+                z-index: 2;
             }
 
-            .chats i {
-                font-size: 1rem;
-            }
+                button i {
+                    font-size: 1rem;
+                    width: 100%;
+                    height: 100%;
+                }
 
         .friend-column {
             position: absolute;
-            height: calc(100% - 80px);
+            height: calc(100% - 105px);
             width: var(--sb-width);
             overflow-y: auto; 
             overflow-x: hidden;
-            border: 1px solid #ddd; 
-            border-radius: var(--bord-rad);
+            border-top: 1px solid #ddd; 
+            /* border-radius: var(--bord-rad); */
         }
 
             .friend-list {
@@ -115,8 +153,12 @@ body {
                     position: relative;
                     width: var(--sb-width);
                     height: 60px;
-                    border: 1px solid #ddd;
+                    border-bottom: 1px solid #ddd;
                     padding: 15px; 
+                }
+
+                .friend-list-div:hover {
+                    background-color: rgba(255, 255, 255, .25);
                 }
 
                     .friend-list img {
@@ -153,24 +195,56 @@ body {
         min-width: 400px;
         height: 100%;
         left: var(--sb-width);
+        background-color: rgba(0, 0, 0, .1);
 
-        border: 1px solid #ddd; 
-        border-top-right-radius: var(--bord-rad);
         border-bottom-right-radius: var(--bord-rad);
     }
 
         .chat-messages {
-
+            position: absolute;
+            right: 0;
+            top: 0;
             width: 100%;
-            height: 90%;
+            height: calc(100% - 50px);
+            padding: 20px;
+            padding-bottom: 0;
+
+            overflow-y: auto; 
+            overflow-x: hidden;
         }
 
         .message-list {
+            height: 100%;
+            width: 100%;
             list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+
         }
 
+            .message-list div {
+                width: 70%;
+                border-radius: 35px;
+                padding: 10px;
+                margin: 10px;
+            }
+
+            .my-message {
+                align-self: flex-end;
+                background-color: rgb(255, 169, 82);
+                right: 0;
+            }
+
+            .not-my-message {
+                align-self: flex-start;
+                background-color: rgb(227, 97, 97);
+            }
+
         .curr-message {
-            position: relative;
+            position: absolute;
+            bottom: 0;
             height: 50px;
             width: 100%;
             display: flex;
@@ -180,7 +254,8 @@ body {
 
 
             .curr-message textarea {
-                width: 80%;
+                border-radius: 15px;
+                width: 85%;
                 height: 50%;
             }
 
