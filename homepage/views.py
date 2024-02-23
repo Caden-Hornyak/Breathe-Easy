@@ -83,14 +83,10 @@ def accept_friend_request(request):
         return JsonResponse({'response': 'Unable to accept friend request. :/'})
     
 @login_required
-def friends_page(request):
-    user = userAttribute.objects.get(username=request.session.get('username', None))
-    return render(request, 'friends.html', {'prof_pic': user.profile_picture.url, 'username': user.username})
-
-@login_required
 def friends(request):
     user = userAttribute.objects.get(username=request.session.get('username', None))
-    return JsonResponse({'friends': [[friend.username, friend.profile_picture.url] for friend in user.friends.all()]})
+
+    return JsonResponse({'friends': [[friend.username, friend.profile_picture.url, friend.is_active] for friend in user.friends.all()]})
 
 @login_required
 def get_chats(request):
@@ -103,22 +99,37 @@ def get_chats(request):
             prof_pic = '/static/media/default_groupchat.png'
         else:
             prof_pic = participants[0].profile_picture.url
+            print(prof_pic, file=sys.stderr)
 
         chat_name = ', '.join([participant.username for participant in participants])
         chats.append([chat.id, chat_name, prof_pic[1:], chat.date_created.strftime('%m/%d/%Y')])
 
     return JsonResponse({'chats': chats})
 
+
+# If chat with matching participants exists, return it, else create new chat and return it
 @login_required
 def create_chat(request):   
     if request.method == 'POST':
-        participants = request.POST['usernames']
-        if chat.objects.filter(participants=participants).exists():
-            return chat.objects.filter(participants=participants).id
-        
-        new_chat = chat(participants=participants)
-        new_chat.save()
-        return new_chat.id
+        participants = json.loads(request.POST['friends']) + [request.session.get('username', None)]
+        curr_chat = chat.objects.filter(participants__username__in=participants).distinct()
+        if curr_chat.exists():
+            existing_chat = curr_chat.first()
+
+            return JsonResponse({'chat': existing_chat.id})
+        else:
+
+            new_chat = chat()
+            new_chat.save()
+            for user in [userAttribute.objects.get(username=participant) for participant in participants]:
+                new_chat.participants.add(user)
+                user.chats.add(new_chat)
+                user.save()
+
+            new_chat.save()
+            return JsonResponse({'chat': new_chat.id})
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @login_required
 def message_action(request):
@@ -158,3 +169,4 @@ def message_action(request):
             return JsonResponse({'response': 'Invalid Message Action'})
 
     return JsonResponse({'messages': 'Invalid HTTP request to message_action'})
+

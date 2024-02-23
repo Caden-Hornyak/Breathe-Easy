@@ -91,7 +91,7 @@ def login(request):
                 request.session.set_expiry(0)
             
             user_atr = userAttribute.objects.get(username=username)
-            user_atr.active = True
+            user_atr.is_active = True
             user_atr.save()
             return redirect(reverse('homepage'))
         else:
@@ -103,7 +103,7 @@ def login(request):
 
 def signout(request):
     user_atr = userAttribute.objects.get(username=request.session.get('username', None))
-    user_atr.active = True
+    user_atr.is_active = False
     user_atr.save()
     logout(request)
     

@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/friends.css' %}">
+    <link rel="stylesheet" href="{% static 'css/friend_selector_dropdown.css' %}">
     <link rel="stylesheet" href="{% static 'css/spinner.css' %}">
     <link rel="stylesheet" href="{% static 'css/mainpage.css' %}">
     <link rel="stylesheet" href="{% static 'css/background.css' %}">
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
     {% if newuser %}
     <link rel="stylesheet" href="{% static 'css/instructions.css' %}">
@@ -27,50 +30,115 @@
         <img id="eight" class="blob" src="../static/images/mov-grad-background/start/Vector-1.png" alt="">
     </div>
 
-    <div class="lds-ripple"><div></div><div></div></div>
+        <div class="lds-ripple"><div></div><div></div></div>
 
-    <div class="topbar">
-        <a href="{% url 'homepage' %}">
-            <div id="logo-image" class="fade-in">
-                <span>TITLE PLACEHOLDER</span>
+    <div class="homepage-wrapper">
+        <div class="topbar">
+            <a href="{% url 'homepage' %}">
+                <div id="logo-image" class="fade-in">
+                    <span>TITLE PLACEHOLDER</span>
+                </div>
+            </a>
+            <a href="{% url 'signout' %}">
+                <div id="premium" class="fade-in">
+                    <span>Premium</span>
+                </div>
+            </a>
+            <a href="{% url 'signout' %}">
+                <div id="logout" class="fade-in">
+                    <span>Log Out</span>
+                </div>
+            </a>
+        </div>
+        
+        {% if newuser %}
+        <div class="instructions">
+            <ul>
+                <li>Hello {{ username }}, This Is Your Homepage!</li>
+                <li>I am your personal AI chatbot, placeholder</li>
+                <li>Let out some stress with my amazing ideas!</li>
+            </ul>
+        </div>
+
+        {% endif %}
+
+        <button class="title-btn fade-in" id="outside-btn" onclick="send_user_data(this)">Outside</button>
+        <button class="title-btn fade-in" id="inside-btn" onclick="send_user_data(this)">Inside</button>
+
+        <button class="title-btn fade-in" id="friends-btn">Friends >></button>
+
+        <div class="output-wrapper">
+            <div class="output-text-container">
+                <span id="output"></span>
+                <div class="blinking-rectangle"></div>
+            </div> 
+        </div>
+    </div>
+
+    
+    <div class="friend-wrapper">
+        <div class="outer-border">
+            <div class="ui-wrapper">
+                <div class="left-column">
+                    <div class="user-info">
+                        <img src="{{prof_pic}}" alt="">
+                        <span>{{username}}</span>
+                    </div>
+                    <div class="friends-tab-selector">
+                        <i class='bx bx-face'></i>
+                        <span>Friends</span>
+                    </div>
+                    <div class="create-chat-div">
+                        <span>Create Chat</span>
+                        <button class="create-chat">
+                            <i class='bx bx-plus'></i>
+                        </button>
+                    </div>
+                    <div class="friend-column">
+                        <ul class="friend-list">
+                            
+                        </ul>
+                    </div>
+                </div>
+    
+                <div class="friend-selector">
+                    <div class="select-friends-title">Select Friends</div>
+                    <textarea name="" row="1" col="25" class="friend-tag-selector"></textarea>
+                    <form action="">
+                        <ul class="selector-friend-list">
+    
+                        </ul>
+                        
+                    </form>
+                    <button type="button" class="friend-selector-submit">Create chat</button>
+                </div>
+    
+                <div class="chat">
+                    <div class="chat-messages">
+                        <ul class="message-list">
+    
+                        </ul>
+                    </div>
+                    <div class="curr-message">
+                        <textarea class="curr-chat-msg" name="" id="" cols="15" rows="1" placeholder="Text Message"></textarea>
+                        <button class="send-message">
+                            <i class='bx bxs-up-arrow-circle'></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="friend-tab">
+                    <div class="friend-request">
+                        <span>Add Friends: </span>
+                        <textarea class="friend-code" name="" id="" cols="15" rows="1" placeholder="Username"></textarea>
+                    </div>
+                    <ul class="friend-tab-list"></ul>
+                </div>
             </div>
-        </a>
-        <a href="{% url 'signout' %}">
-            <div id="premium" class="fade-in">
-                <span>Premium</span>
-            </div>
-        </a>
-        <a href="{% url 'signout' %}">
-            <div id="logout" class="fade-in">
-                <span>Log Out</span>
-            </div>
-        </a>
+        </div>
+
+        <button class="title-btn" id="homepage-btn">&lt;</button>
     </div>
     
-    {% if newuser %}
-    <div class="instructions">
-        <ul>
-            <li>Hello {{ username }}, This Is Your Homepage!</li>
-            <li>I am your personal AI chatbot, placeholder</li>
-            <li>Let out some stress with my amazing ideas!</li>
-        </ul>
-    </div>
-
-    {% endif %}
-
-    <button class="title-btn fade-in" id="outside-btn" onclick="send_user_data(this)">Outside</button>
-    <button class="title-btn fade-in" id="inside-btn" onclick="send_user_data(this)">Inside</button>
-
-    <a href="{% url 'friends_page' %}">
-        <button class="title-btn fade-in" id="friends-btn" onclick="friends_tab()">Friends >></button>
-    </a>
-    <div class="output-wrapper">
-        <div class="output-text-container">
-            <span id="output"></span>
-            <div class="blinking-rectangle"></div>
-        </div> 
-    </div>
-
 
     <!-- django to js variables -->
     <script data-newuser="{{ newuser }}">
@@ -81,5 +149,7 @@
 
     <script src="../../static/js/jQuery.js"></script>
     <script src="../static/js/mainpage.js"></script>
+    <script src="{% static 'js/friends.js' %}"></script>
+    <script src="{% static 'js/friend_selector_dropdown.js' %}"></script>
 </body>
 </html>

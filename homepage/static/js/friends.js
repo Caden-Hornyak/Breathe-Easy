@@ -13,6 +13,9 @@ const chats = new Map();
 let curr_chat_select;
 let curr_chat_select_messages;
 
+let friend_tab = $('.friend-tab');
+let chat = $('.chat');
+
 // Add Friend -- START
 function send_friend_code() {
     let friend_username = friend_code_box[0].value;
@@ -58,24 +61,29 @@ $('.create-chat').onclick = function() {
 
 
 // Get/Display user chats -- START
-$.ajax({
-    type: 'POST',
-    url: '/homepage/get_chats/',
-    data: {
-        'to_user': 'hello',
-        csrfmiddlewaretoken: window.CSRF_TOKEN,
-    },
-    dataType: 'json',
-    success: function (data) {
-        user_chats_in = data['chats'];
-        display_chats();
-    },
-    error: function (error) {
-        console.error('Error:', error);
-    },
-});
+function get_user_chats(selected="") {
+    $.ajax({
+        type: 'POST',
+        url: '/homepage/get_chats/',
+        data: {
+            'to_user': '',
+            csrfmiddlewaretoken: window.CSRF_TOKEN,
+        },
+        dataType: 'json',
+        success: function (data) {
+            user_chats_in = data['chats'];
+            display_chats(selected);
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        },
+    });
+}
+get_user_chats();
 
-function display_chats() {
+function display_chats(selected="") {
+    message_list.empty();
+
     if (user_chats_in.length > 0) {
         for (var i = 0; i < user_chats_in.length; i++) {
 
@@ -102,10 +110,26 @@ function display_chats() {
             message_list[0].appendChild(outer_div);
             chats.set(outer_div.id, user_chats_in[i][0]);
 
+            // switch between chats and friends tab
             outer_div.onclick = function() {
-                curr_chat_select = this.id;
+                $('.friends-tab-selector')[0].style.backgroundColor = 'transparent';
+                if (curr_chat_select) {
+                    curr_chat_select.style.backgroundColor = "transparent";
+                }
+                curr_chat_select = this;
+                this.style.backgroundColor = "rgba(255, 255, 255, .2)";
+
+                chat[0].style.opacity = '1';
+                chat[0].style.pointerEvents = 'auto';
+            
+                friend_tab[0].style.opacity = '0';
+                friend_tab[0].style.pointerEvents = 'none';
+
                 get_message();
                 
+            }
+            if (user_chats_in[i][0] == selected) {
+                outer_div.click();
             }
         }
     } else {
@@ -125,13 +149,13 @@ function create_destroy_message(action, text="") {
         url: '/homepage/message_action/',
         data: {
             'action': action,
-            'chat_id': chats.get(curr_chat_select),
+            'chat_id': chats.get(curr_chat_select.id),
             'text': text,
             csrfmiddlewaretoken: window.CSRF_TOKEN,
         },
         dataType: 'json',
         success: function (data) {
-            get_message(curr_chat_select);
+            get_message(curr_chat_select.id);
         },
         error: function (error) {
             console.error('Error:', error);
@@ -146,7 +170,7 @@ function get_message() {
         url: '/homepage/message_action/',
         data: {
             'action': 'get',
-            'chat_id': chats.get(curr_chat_select),
+            'chat_id': chats.get(curr_chat_select.id),
             csrfmiddlewaretoken: window.CSRF_TOKEN,
         },
         dataType: 'json',
@@ -165,6 +189,7 @@ function display_message(curr_chat_select_messages) {
 
     var ul = $('.message-list');
     ul.empty();
+
     // Append new messages to the ul
     curr_chat_select_messages.forEach(function(message_pair) {
         var div = document.createElement('div');
@@ -207,9 +232,89 @@ body[0].addEventListener('keydown', function(event) {
 
         if (chat_message_input_focus) {
             let message = chat_message_input[0].value;
-            chat_message_input[0].value = ""
+            chat_message_input[0].value = "";
             create_destroy_message('create', message);
         }
 
     }
 });
+
+// switch from chat tab to friends tab
+$('.friends-tab-selector')[0].onclick = function() {
+
+    if (curr_chat_select) {
+        curr_chat_select.style.backgroundColor = "transparent";
+    }
+    $('.friends-tab-selector')[0].style.backgroundColor = "rgba(255, 255, 255, .2)";
+    chat[0].style.opacity = '0';
+    chat[0].style.pointerEvents = 'none';
+
+    friend_tab[0].style.opacity = '1';
+    friend_tab[0].style.pointerEvents = 'auto';
+    get_friendtab_friends();
+
+}
+
+// Friend Tab -- START
+let friends_tab_friends;
+let friend_tab_list = $('.friend-tab-list');
+
+function get_friendtab_friends() {
+    $.ajax({
+        type: 'POST',
+        url: '/homepage/friends/',
+        data: {
+            csrfmiddlewaretoken: window.CSRF_TOKEN,
+        },
+        dataType: 'json',
+        success: function (data) {
+            friends_tab_friends = data['friends'];
+            display_friendtab_friends();
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        },
+    });
+}
+
+
+function display_friendtab_friends() {
+    friend_tab_list.empty();
+    for (var i = 0; i < friends_tab_friends.length; i++) {
+        var div = document.createElement('div');
+        div.className = 'friend-tab-div';
+
+        var img = document.createElement('img');
+        img.className = 'friend-tab-img';
+        img.src = friends_tab_friends[i][1];
+
+        var li = document.createElement('li');
+        li.className = 'friend-tab-span';
+        li.innerHTML = friends_tab_friends[i][0];
+
+        var span = document.createElement('span');
+        span.style.color = "rgba(254, 255, 223, .2)";
+
+        var circle = document.createElement('div');
+        circle.className = 'circle';
+
+        // if friend is active
+        if (friends_tab_friends[i][2]) {
+
+            circle.style.background = "rgb(254, 255, 223)";
+            span.innerHTML = 'Active';
+        } else {
+
+            circle.style.background = "rgba(254, 255, 223, .4)";
+            span.innerHTML = 'Offline';
+        }
+
+        div.appendChild(img);
+        div.appendChild(li);
+        div.append(span);
+        div.appendChild(circle);
+        friend_tab_list[0].append(div);
+    }
+}
+
+$('.friends-tab-selector').click();

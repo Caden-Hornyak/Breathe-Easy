@@ -92,3 +92,16 @@ window.send_user_data = function send_user_data(button) {
 // window.friends_tab = function friends_tab() {
 //     mainpage[0].classList.toggle("active");
 // }
+
+let homepage_wrapper = $('.homepage-wrapper');
+let friend_wrapper = $('.friend-wrapper');
+
+$('#friends-btn')[0].onclick = function() {
+    friend_wrapper[0].style.left = '0vw';
+    homepage_wrapper[0].style.right = '100vw';
+}
+
+$('#homepage-btn')[0].onclick = function() {
+    friend_wrapper[0].style.left = '100vw';
+    homepage_wrapper[0].style.right = '0vw';
+}

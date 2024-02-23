@@ -17,6 +17,7 @@ class userAttribute(models.Model):
     friends = models.ManyToManyField("userAttribute", blank=True)
     profile_picture = models.ImageField(default='default_profpic.png')
     chats = models.ManyToManyField('chat', blank=True, related_name='chats')
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

@@ -14,6 +14,14 @@ body {
     min-height: 100vh;
 }
 
+
+.homepage-wrapper {
+    position: absolute;
+    right: 0vw;
+    height: 100vh;
+    width: 100vw;
+    transition: right ease .5s;
+}
 .topbar {
     position: absolute;
     width: 100vw;

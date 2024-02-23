@@ -1,10 +1,11 @@
 .friend-selector {
+  font-family: Helvetica, Arial, sans-serif;
   position: absolute;
 
   width: 210px;
   height: 200px;
   left: calc(var(--sb-width) - 20px);
-  top: 105px;
+  top: 145px;
 
   background-color: rgb(227, 97, 97);
   opacity: 0;
@@ -12,23 +13,33 @@
   z-index: 1;
   border-radius: 5px;
   box-shadow: 3px 3px 20px black;
+
 }
 
-.friend-selector span {
+.select-friends-title {
   margin: 10px;
+  margin-bottom: 0px;
 }
 
 .friend-selector form {
-  width: 100%;
-  height: 80%;
+  width: 90%;
+  height: 50%;
+  margin: 5px 10px;
+  margin-top: 0;
   
 }
 
 .friend-selector textarea {
   width: 90%;
-  margin: 10px;
+  margin: 5px 10px;
+  margin-bottom: 0px;
+  height: 25px;
+  padding: 5px;
 }
-
+  .friend-selector textarea::-webkit-scrollbar {
+    width: 0px;
+  }
+  
 .friend-selector button {
   position: absolute;
   left: 50%;
@@ -44,21 +55,24 @@
   height: 25px;
 }
 
-.friend-selector button:hover {
-  background-color: rgba(0, 0, 0, .4);
-}
+  .friend-selector button:hover {
+    background-color: rgba(0, 0, 0, .4);
+  }
 
 .selector-friend-list {
   overflow-y: auto; 
   overflow-x: hidden;
   list-style-type: none;
-  margin: 10px;
+  margin-top: 0;
   padding: 0;
-
+  height: 100%;
+  width: 100%;
 }
 
 .selector-friend-li {
+
   position: relative;
+  margin: 0;
   width: 100%;
   height: 25px;
   display: flex;
@@ -81,8 +95,8 @@
 
   .selector-friend-li input {
     position: absolute;
-    right: 0;
     margin: 5px;
+    right: 0;
 
   }
 
