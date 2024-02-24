@@ -1,4 +1,9 @@
 .output-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
     width: 500px;
     height: 300px;
     color: rgb(254, 255, 223);
@@ -8,6 +13,8 @@
     transition: opacity ease .5s;
     padding: 10px;
     display: inline;
+
+    overflow-y:auto
 }
 
 /* #output {

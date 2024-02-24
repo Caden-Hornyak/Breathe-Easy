@@ -39,14 +39,24 @@ function hide_titles() {
 }
 
 function display_output(index) {
-    output[0].textContent += chatbot_output[index] + " ";
+    var containsNumber = /\d/.test(chatbot_output[index]);
 
-    if (index < chatbot_output.length) {
+    // If the word contains a number, add a newline before the number
+    if (containsNumber) {
+        console.log("true for ", chatbot_output[index]);
+        // Use replace to add a newline before the first occurrence of a number
+        chatbot_output[index] = chatbot_output[index].replace(/(:)/g, '<br>$1');
+    }
+
+    output[0].innerHTML += chatbot_output[index] + " ";
+    output_wrapper[0].scrollTop = output_wrapper[0].scrollHeight;
+    if (index+1 < chatbot_output.length) {
         setTimeout(function() {
             display_output(index+1);
         }, 60);
     } else {
         blinking_rectangle[0].classList.toggle("paused");
+        
     }
 }
 
@@ -56,13 +66,19 @@ window.send_user_data = function send_user_data(button) {
     hide_titles();
 
     var userInput = button.innerText;
-
-    //while testing
+    $('.lds-ripple')[0].style.opacity = '1';
+    // while testing
     // let text = "I'm glad to hear that you enjoy rap and hip-hop music! Here are some popular rap and hip-hop songs without any explanations:"
     // chatbot_output = text.split(" ")       
-    // output_wrapper[0].style.opacity = "1";   
+    
     // blinking_rectangle[0].classList.toggle("paused");
-    // display_output(0);
+    // 
+    // setTimeout(function() {
+    //     display_output(0);
+    // output_wrapper[0].style.opacity = "1";  
+    //      
+    // }, 6000);
+    
     // return;
 
     $.ajax({
@@ -74,12 +90,13 @@ window.send_user_data = function send_user_data(button) {
         },
         dataType: 'json',
         success: function (data) {
-
+            $('.lds-ripple')[0].style.opacity = '0';
             // prompt form string to list
             chatbot_output = data.chatbot_response.split(" ")
             
             output_wrapper[0].style.opacity = "1";   
             blinking_rectangle[0].classList.toggle("paused");
+            
             display_output(0);
         },
         error: function (error) {
@@ -99,9 +116,22 @@ let friend_wrapper = $('.friend-wrapper');
 $('#friends-btn')[0].onclick = function() {
     friend_wrapper[0].style.left = '0vw';
     homepage_wrapper[0].style.right = '100vw';
+
+    friend_wrapper[0].style.opacity = '1';
+    friend_wrapper[0].style.pointerEvents = 'auto';
+
+    homepage_wrapper[0].style.opacity = '0';
+    homepage_wrapper[0].style.pointerEvents = 'none';
 }
 
 $('#homepage-btn')[0].onclick = function() {
     friend_wrapper[0].style.left = '100vw';
     homepage_wrapper[0].style.right = '0vw';
+
+    friend_wrapper[0].style.opacity = '0';
+    friend_wrapper[0].style.pointerEvents = 'none';
+
+    homepage_wrapper[0].style.opacity = '1';
+    homepage_wrapper[0].style.pointerEvents = 'auto';
 }
+

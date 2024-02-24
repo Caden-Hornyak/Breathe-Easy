@@ -108,7 +108,9 @@ function checkSubmit(e) {
 
 
 
-
+$('.alert')[0].onclick = function() {
+    this.style.display = "none";
+}
 
 
 

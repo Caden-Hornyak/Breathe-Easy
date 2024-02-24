@@ -16,6 +16,10 @@
 
 }
 
+.friend-request-message {
+  opacity: 0;
+}
+
 .select-friends-title {
   margin: 10px;
   margin-bottom: 0px;

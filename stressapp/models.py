@@ -24,7 +24,7 @@ class userAttribute(models.Model):
 
 class friend_request(models.Model):
     from_user = models.ForeignKey(userAttribute, blank=True, null=True, related_name='from_user', on_delete=models.SET_NULL)
-    to_user = models.ManyToManyField(userAttribute, blank=True, related_name='to_user')
+    to_user = models.ForeignKey(userAttribute, blank=True, null=True, related_name='to_user', on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.from_user + " request to " + self.to_user

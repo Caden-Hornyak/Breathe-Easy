@@ -149,6 +149,10 @@ h2 {
 
 
 .messages {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    margin: 10px;
     z-index: 1;
 }

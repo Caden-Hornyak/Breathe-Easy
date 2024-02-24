@@ -16,6 +16,7 @@ let curr_chat_select_messages;
 let friend_tab = $('.friend-tab');
 let chat = $('.chat');
 
+
 // Add Friend -- START
 function send_friend_code() {
     let friend_username = friend_code_box[0].value;
@@ -30,7 +31,21 @@ function send_friend_code() {
         },
         dataType: 'json',
         success: function (data) {
-            console.log(data['response']);
+            // display whether friend is added or not
+            
+            let friend_req_msg = $('.friend_request_message');
+            friend_req_msg[0].style.opacity = '1';
+            if (data['added'] == 'true') {
+                friend_req_msg[0].style.color = 'rgb(254, 255, 223);';
+                friend_req_msg[0].innerHTML = "Friend request sent!";
+            } else {
+                friend_req_msg[0].style.color = 'rgb(227, 97, 97);';
+                friend_req_msg[0].innerHTML = "User not found.";
+            }
+
+            setTimeout(function() {
+                friend_req_msg[0].style.opacity = '0';
+            }, 10000)
         },
         error: function (error) {
             console.error('Error:', error);
@@ -72,6 +87,7 @@ function get_user_chats(selected="") {
         dataType: 'json',
         success: function (data) {
             user_chats_in = data['chats'];
+
             display_chats(selected);
         },
         error: function (error) {
@@ -213,21 +229,27 @@ function display_message(curr_chat_select_messages) {
 }
 
 chat_message_input[0].addEventListener("focus", (event) => {
-    event.target.style.background = "pink";
     chat_message_input_focus = true;
   });
 
   chat_message_input[0].addEventListener("blur", (event) => {
-    event.target.style.background = "white";
     chat_message_input_focus = false;
+  });
+
+  friend_code_box[0].addEventListener("focus", (event) => {
+    friend_code_box_focus = true;
+  });
+
+  friend_code_box[0].addEventListener("blur", (event) => {
+    friend_code_box_focus = false;
   });
 
 body[0].addEventListener('keydown', function(event) {
 
     if (event.key === 'Enter') {
+
         if (friend_code_box_focus) {
             send_friend_code();
-            friend_code_box[0].value = "";
         }
 
         if (chat_message_input_focus) {
@@ -257,7 +279,7 @@ $('.friends-tab-selector')[0].onclick = function() {
 
 // Friend Tab -- START
 let friends_tab_friends;
-let friend_tab_list = $('.friend-tab-list');
+let friend_tab_list = $('#friend-tab-list');
 
 function get_friendtab_friends() {
     $.ajax({
@@ -318,3 +340,82 @@ function display_friendtab_friends() {
 }
 
 $('.friends-tab-selector').click();
+
+$("#friends-tab-btn2")[0].onclick = function() {
+
+    $("#friend-tab-friendreq")[0].style.display = 'block';
+    $("#friend-tab-friends")[0].style.display = 'none';
+}
+
+$("#friends-tab-btn")[0].onclick = function() {
+    
+    $("#friend-tab-friendreq")[0].style.display = 'none';
+    $("#friend-tab-friends")[0].style.display = 'block';
+}
+
+$("#friends-tab-btn").click();
+
+
+let friends_tab_friendreq;
+let friends_tab_friendreq_list = $('#friend-tab-list2');
+
+function get_friendtab_friendreq() {
+    $.ajax({
+        type: 'POST',
+        url: '/homepage/get_friend_request/',
+        data: {
+            csrfmiddlewaretoken: window.CSRF_TOKEN,
+        },
+        dataType: 'json',
+        success: function (data) {
+            friends_tab_friendreq = data['friend_requests'];
+            display_friendtab_friendreq();
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        },
+    });
+}
+
+//friend request tab
+function display_friendtab_friendreq() {
+    friends_tab_friendreq_list.empty();
+
+    if (friends_tab_friendreq.length  == 0) {
+        var span = document.createElement('span');
+        span.innerHTML = "You have no friend requests";
+        friends_tab_friendreq_list[0].append(span);
+    } else {
+        for (var i = 0; i < friends_tab_friendreq.length; i++) {
+
+            var div = document.createElement('div');
+            div.className = 'friend-tab-div';
+    
+            var img = document.createElement('img');
+            img.className = 'friend-tab-img';
+            img.src = friends_tab_friendreq[i][1];
+
+    
+            var li = document.createElement('li');
+            li.className = 'friend-tab-span';
+            li.innerHTML = friends_tab_friendreq[i][0];
+    
+            var check = document.createElement('i');
+            check.classList.add("bx", "bx-check");
+    
+            var x = document.createElement('i');
+            check.className = "block";
+    
+    
+            div.appendChild(img);
+            div.appendChild(li);
+            div.appendChild(check);
+            div.appendChild(x);
+    
+            friends_tab_friendreq_list[0].append(div);
+        }
+    }
+    
+}
+
+get_friendtab_friendreq();

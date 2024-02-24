@@ -45,9 +45,9 @@ def prompt_reciever(request):
             prompt_interests = ""
 
         if user_input == "Outside":
-            prompt_inorout = " as well as some music to listen to."
+            prompt_inorout = " as well as 3 music artistics to listen to."
         else:
-            prompt_inorout = " as well as some music and a movie I could also watch."
+            prompt_inorout = " as well as 3 music artistics to listen to and 1 movie I could watch."
 
         prompt = prompt_interests + "Give me an activity to do " + user_input + prompt_inorout
 
@@ -63,17 +63,21 @@ def send_friend_request(request):
             from_user = userAttribute.objects.get(username=request.session.get('username', None))
             to_user = userAttribute.objects.get(username=request.POST['to_user'])
         except userAttribute.DoesNotExist:
-            return JsonResponse({'response': 'User does not exist'})
+            return JsonResponse({'response': 'User does not exist', 'added': 'false'})
 
-        curr_friend_req, created = friend_request.objects.get_or_create(from_user=from_user, to_user=to_user)
+        if len(friend_request.objects.filter(to_user=to_user, from_user=from_user)) > 0:
+            return JsonResponse({'response': 'Friend request already sent', 'added': 'false'})
+
+        curr_friend_req = friend_request(from_user=from_user, to_user=to_user)
+        curr_friend_req.save()
         if (from_user.username == to_user.username):
-            return JsonResponse({'response': 'You sent a friend request to yourself...'})
+            return JsonResponse({'response': 'You sent a friend request to yourself...', 'added': 'true'})
         else:
-            return JsonResponse({'response': 'Friend request sent'})
+            return JsonResponse({'response': 'Friend request sent', 'added': 'true'})
 
 @login_required
 def accept_friend_request(request):
-    curr_friend_req = friend_request.objects.get_or_create(id=request.POST['reqID'])
+    curr_friend_req = friend_request.objects.get(id=request.POST['reqID'])
     if curr_friend_req.to_user == request.user:
         curr_friend_req.to_user.friends.add(curr_friend_req.from_user)
         curr_friend_req.from_user.friends.add(curr_friend_req.to_user)
@@ -81,6 +85,21 @@ def accept_friend_request(request):
         return JsonResponse({'response': 'Friend request accepted!'})
     else:
         return JsonResponse({'response': 'Unable to accept friend request. :/'})
+    
+@login_required
+def get_friend_request(request):
+    friend_requests = friend_request.objects.filter(to_user=userAttribute.objects.get(username=request.session.get('username', None)))
+    users = []
+    for curr_friend_request in friend_requests:
+        try:
+            user = userAttribute.objects.get(username=curr_friend_request.from_user)
+        except userAttribute.DoesNotExist:
+            return JsonResponse({'response': 'Invalid friend request.'})
+        
+        users.append([user.username, user.profile_picture.url, curr_friend_request.id])
+
+    return JsonResponse({'friend_requests': users})
+
     
 @login_required
 def friends(request):
@@ -96,10 +115,9 @@ def get_chats(request):
     for chat in user.chats.all():
         participants = [participant for participant in chat.participants.all() if participant.username != username]
         if len(participants) > 1:
-            prof_pic = '/static/media/default_groupchat.png'
+            prof_pic = '/media/default_groupchat.png'
         else:
             prof_pic = participants[0].profile_picture.url
-            print(prof_pic, file=sys.stderr)
 
         chat_name = ', '.join([participant.username for participant in participants])
         chats.append([chat.id, chat_name, prof_pic[1:], chat.date_created.strftime('%m/%d/%Y')])
@@ -112,11 +130,21 @@ def get_chats(request):
 def create_chat(request):   
     if request.method == 'POST':
         participants = json.loads(request.POST['friends']) + [request.session.get('username', None)]
-        curr_chat = chat.objects.filter(participants__username__in=participants).distinct()
-        if curr_chat.exists():
-            existing_chat = curr_chat.first()
+        curr_chats = chat.objects.filter(participants__username__in=participants).distinct()
 
-            return JsonResponse({'chat': existing_chat.id})
+        # Convert the participants list to a set for easy comparison
+        participants_set = set(participants)
+
+        for curr_chat in curr_chats:
+            # Get the participants of the current chat
+            existing_participants = list(curr_chat.participants.all())
+
+            # Convert the existing participants list to a set for comparison
+            existing_participants_set = set(existing_participants)
+
+            # Check if the sets are equal
+            if participants_set == existing_participants_set:
+                return JsonResponse({'chat': curr_chat.id})
         else:
 
             new_chat = chat()

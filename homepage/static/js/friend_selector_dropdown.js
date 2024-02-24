@@ -97,7 +97,7 @@ function display_friends(match="") {
 
 // submit form
 $('.friend-selector-submit')[0].onclick = function(e) {
-    console.log("ran");
+
     let selected_friends = [];
     for (var element in checkbox_dic) {
         if (checkbox_dic[element]) {
@@ -114,6 +114,7 @@ $('.friend-selector-submit')[0].onclick = function(e) {
         dataType: 'json',
         success: function (data) {
             chat = data['chat'];
+ 
             get_user_chats(chat);
         },
         error: function (error) {

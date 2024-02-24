@@ -11,4 +11,5 @@ urlpatterns = [
     path('get_chats/', views.get_chats, name='get_chats'),
     path('create_chat/', views.create_chat, name='create_chat'),
     path('friends/', views.friends, name='friends'),
+    path('get_friend_request/', views.get_friend_request, name='get_friend_request'),
 ]
