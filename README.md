@@ -1,6 +1,6 @@
 ### Breathe Easy
 
-This was my second web development project. The code is not completely organized and efficient, yet the end product looks and works well.
+This was my second web development project. Breathe easy started as a simple project with two buttons that reccomended ideas from a prewritten text file to a fully implemented AI chatbot with a friend and message system.
 Below are some screengrabs of the product. Everything shown is functional.
 
 ![Authentication](https://github.com/Caden-Hornyak/StressApp/assets/108236501/8feb1d42-e07b-42ef-a7eb-44a2b6bdae5e)
