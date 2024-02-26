@@ -106,9 +106,6 @@ window.send_user_data = function send_user_data(button) {
    
 }
 
-// window.friends_tab = function friends_tab() {
-//     mainpage[0].classList.toggle("active");
-// }
 
 let homepage_wrapper = $('.homepage-wrapper');
 let friend_wrapper = $('.friend-wrapper');

@@ -77,14 +77,21 @@ def send_friend_request(request):
 
 @login_required
 def accept_friend_request(request):
-    curr_friend_req = friend_request.objects.get(id=request.POST['reqID'])
-    if curr_friend_req.to_user == request.user:
-        curr_friend_req.to_user.friends.add(curr_friend_req.from_user)
-        curr_friend_req.from_user.friends.add(curr_friend_req.to_user)
-        curr_friend_req.delete()
-        return JsonResponse({'response': 'Friend request accepted!'})
-    else:
-        return JsonResponse({'response': 'Unable to accept friend request. :/'})
+    if request.method == 'POST':
+        action = request.POST['action']
+        curr_friend_req = friend_request.objects.get(id=request.POST['reqID'])
+        if curr_friend_req.to_user == request.user:
+            if action == 'accept':
+                curr_friend_req.to_user.friends.add(curr_friend_req.from_user)
+                curr_friend_req.from_user.friends.add(curr_friend_req.to_user)
+            curr_friend_req.delete()
+
+            if action == 'accept':
+                return JsonResponse({'response': 'Friend request accepted!'})
+            else:
+                return JsonResponse({'response': 'Friend request rejected!'})
+        else:
+            return JsonResponse({'response': 'Unable to accept friend request. :/'})
     
 @login_required
 def get_friend_request(request):
@@ -198,3 +205,6 @@ def message_action(request):
 
     return JsonResponse({'messages': 'Invalid HTTP request to message_action'})
 
+@login_required
+def premium(request):
+    return render(request, 'premium.html')

@@ -55,6 +55,15 @@ body {
 
 }
 
+.bx-block {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+.bx-check {
+    margin-left: auto;
+}
+
+
 
 .friend-request button {
 

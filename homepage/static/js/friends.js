@@ -404,8 +404,21 @@ function display_friendtab_friendreq() {
             check.classList.add("bx", "bx-check");
     
             var x = document.createElement('i');
-            check.className = "block";
-    
+            x.classList.add("bx", "bx-block");
+            
+            (function(check) {
+                check.onclick = function() {
+                    acceptdeny_friend_request('accept');
+                    div.remove();
+                }
+            })(check, div);
+
+            (function(x) {
+                x.onclick = function() {
+                    acceptdeny_friend_request('deny');
+                    div.remove();
+                }
+            })(x, div);
     
             div.appendChild(img);
             div.appendChild(li);
@@ -419,3 +432,20 @@ function display_friendtab_friendreq() {
 }
 
 get_friendtab_friendreq();
+
+function acceptdeny_friend_request(choice) {
+    $.ajax({
+        type: 'POST',
+        url: '/homepage/accept_friend_request/',
+        data: {
+            csrfmiddlewaretoken: window.CSRF_TOKEN,
+            action: choice,
+        },
+        dataType: 'json',
+        success: function (data) {
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        },
+    });
+}
